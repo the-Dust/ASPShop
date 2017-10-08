@@ -1,0 +1,149 @@
+﻿@using System.Web.Optimization;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    
+    @*
+    @Styles.Render("~/styles")
+    @RenderSection("Styles", false)
+    *@
+    
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
+    
+    <link rel="stylesheet" type="text/css" href="~/Content/Style.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/style_img.css">
+</head>
+<body>
+   
+    
+    
+    <div class="dev-container">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="">
+                            <a href="@Url.Action("Index", "Product")">
+                                Продукция
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="loginLinkId">
+                            @Html.Action("LoginLink", "Login")
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="header">
+            <a href="index.htm">
+                <img src="~/Content/Images/logo.png" alt="logo" class="logo" />
+            </a>
+        </div>
+
+        <div class="content catalog">
+            <div class="menu-col">
+                <div class="menu-top"><p>Меню</p></div>
+                <ul class="menu">
+                    <li><a href="~/Default/Index"><span>Главная</span></a></li>
+                    <li>
+                        <div class="menu-cat">
+                            <a href="@Url.Action("GetCatalogue", "Product")"><span>Каталог</span></a>
+                            <ul class="menu menu-throw-cat">
+                                <li><a href="#"><span>Струны для электрогитары</span></a></li>
+                                <li><a href="#"><span>Струны для баса</span></a></li>
+                                <li><a href="#"><span>Струны для акустики</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu-contacts">
+                            <a href="contacts.htm"><span>Контакты</span></a>
+                            <ul class="menu menu-throw">
+                                <li><a href="contacts.htm"><span>Адрес магазина</span></a></li>
+                                <li><a href="mailto:dust_@("@")inbox.ru"><span>Написать разработчику</span></a></li>
+                                <li><a href="the-Dust_Codewars.htm"><span>Мой код</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <div class="hello"><p>Мы открылись!</p></div>
+            </div>
+            <div class="content-col catalog-pg">
+                <div class="wrapper">
+                    <div class="breadcrumbs">
+                        <a href="index.htm">Главная</a><span> &raquo; </span><span class="this_page">Каталог</span>
+                    </div>
+                    @RenderBody()
+                </div>
+            </div>
+            <div class="empty-cat"></div>
+            <div class="social">
+                <a href="https://www.facebook.com" target="_blank">
+                    <div class="social_logo fb">
+                        <img src="~/Content/Images/f_icon.png" alt="facebook" />
+                    </div>
+                </a>
+                <a href="https://twitter.com" target="_blank">
+                    <div class="social_logo tw">
+                        <img src="~/Content/Images/tw_icon.png" alt="twitter" />
+                    </div>
+                </a>
+                <a href="https://ru.pinterest.com" target="_blank">
+                    <div class="social_logo pin">
+                        <img src="~/Content/Images/pin_icon.png" alt="pinterest" />
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        @Html.Partial("_FooterPartial")
+
+    </div>
+    <div id="modal-content-2">
+
+    </div>
+
+
+    @Scripts.Render("~/scripts")
+    @RenderSection("Scripts", false)
+
+    
+        <script type="text/javascript">
+
+            
+            
+        
+            $('#loginBtn').click(function () {
+
+                $.ajax({
+                    method: 'GET',
+                    data: null,
+                    url: '@Url.Action("GetLoginPartial", "Login")',
+                    success: function (partialView)
+                    {
+                        $('#modal-content-2').empty().html(partialView);
+                        $('#loginModal').modal('show');
+                    },
+                    error: function (err)
+                    {
+                        console.log(err);
+                    },
+                
+                });
+            
+            });
+        </script>
+  
+
+</body>
+</html>

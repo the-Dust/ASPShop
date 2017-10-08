@@ -1,0 +1,12 @@
+﻿@model DataAccess.Entities.Product
+
+
+<div class="item">
+    <a href="@Url.Action("GetProductInfo", Model)">
+        <img src=@("/Content/Images/" + Model.ImageLink) alt="@Model.Name" />
+        <h3>@Model.Name</h3>
+        <p class="price">@Model.Cost.ToString("#.00")&#8381;</p>
+        <div class="cover"><p>Подробнее</p></div>
+    </a>
+</div>
+

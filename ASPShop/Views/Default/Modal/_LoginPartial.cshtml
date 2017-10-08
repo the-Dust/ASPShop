@@ -1,0 +1,78 @@
+﻿@model Web.Models.Login.LoginUser
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    Вход
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form class="row" id="loginform">
+
+                        <div class="form-group col-md-8">
+                            <label for="UserName">Login</label>
+                            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                            @Html.ValidationMessage("UserName", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="Password">Password</label>
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                            @Html.ValidationMessage("Password", new { @class = "text-danger" })
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="hidden"></button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="saveBtn" class="btn btn-default">Войти</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    $(function () {
+        $('#saveBtn').click(function () {
+            $('#submitBtn').click();
+        });
+
+        $('#loginform').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("LoginModal")',
+                method: 'POST',
+                data: $('#loginform').serialize(),
+                success:function(response){
+                    if (response && response.IsLoggedIn) {
+                        
+                        $.get('@Url.Action("LoginLink", "Login")').always(function (resp) {
+                            $('#loginLinkId').empty().html(resp);
+                        });
+                        $('#loginModal').modal('hide');
+                        $('#modal-content-2').addClass("hidden");
+                        //window.location.reload();
+                    }
+                    else
+                    {
+                        $('#modal-content-2').empty();
+                        //$('#modal-content-2').empty().html(response);
+
+                        //$('#loginModal').modal('show');
+
+                        
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+            return false;
+        })
+    })
+</script>
+

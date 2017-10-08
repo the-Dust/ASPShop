@@ -1,0 +1,13 @@
+﻿@model Web.Models.Login.LoginLinkUser
+
+@if (Model.IsLoggedIn)
+{
+    <a href="#">@Model.Login</a>
+    <span>|</span>
+    <a href="@Url.Action("Logout", "Login")">Выход</a>
+}
+else
+{
+    <a href="@Url.Action("Login", "Login")">Войти</a>
+    <a href="#" id="loginBtn">Зайти</a>
+}

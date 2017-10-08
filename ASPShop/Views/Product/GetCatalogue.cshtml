@@ -1,0 +1,22 @@
+﻿@model Web.Models.ProductCatalogue
+
+@{
+    ViewBag.Title = "Каталог|магазин струн \"EvilStrings\"";
+}
+
+
+@foreach (var product in Model.Products)
+{
+    @Html.Partial("GetConcreteProduct", product)
+}
+
+<div class="page-links-container">
+    <div class="page-links">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetCatalogue", new { page = x }))
+    </div>
+</div>
+
+
+
+
+

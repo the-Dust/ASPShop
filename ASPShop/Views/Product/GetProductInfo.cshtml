@@ -1,0 +1,61 @@
+﻿@model DataAccess.Entities.Product
+
+@{
+    ViewBag.Title = Model.Name + "|магазин струн \"EvilStrings\"";
+}
+
+<div class="wrapper">
+    
+    <a href="#image-1" class="item_main_picture_link">
+        <img src="@("/Content/Images/" + Model.ImageLink)" alt="@Model.Name" class="item_main_picture" />
+    </a>
+    
+    
+    <div class="lb-overlay" id="image-1">
+        <a href="#page" class="lb-close">x Close</a>
+            <img src="@("/Content/Images/" + Model.ImageLink)" alt="@Model.Name" />
+    </div>
+    
+
+    <div class="short-descr">
+        <h1 class="item_h1">@Model.Name</h1>
+        <p class="item-price">@Model.Cost&#8381;</p>
+        <div class="hr"></div>
+        <h2>@Model.ProductType</h2>
+        <ul class="item-character">
+            <li>@Model.ShortDescription</li>
+            <li><b>Комплект:</b>&nbsp;6 струн</li>
+            <li><b>Производство:</b>&nbsp;Россия</li>
+            <li><b>Диаметр:</b>&nbsp;11-14-19-40-50-62</li>
+            <li><b>Обмотка:</b>&nbsp;Круглая</li>
+            <li><b>Сплав:</b>&nbsp;Чистая сталь</li>
+        </ul>
+        <div class="hr"></div>
+        <a class="buy_oneclick button-buy" data-product="@Model.Name">Купить</a>
+    </div>
+    <div class="description_head"><h2>Описание товара</h2></div>
+    <div class="description">
+        
+        <p>
+            @Model.Description
+        </p>
+    </div>
+    <h1>Рекомендуем также</h1>
+   
+    @for (int i = 1; i <= 3; i++)
+    {
+        @Html.Action("GetRandomProduct")
+    }
+    
+
+    <div class="empty-cat"></div>
+    <h1>История просмотров</h1>
+   
+    @for (int i = 1; i <= 3; i++)
+    {
+        @Html.Action("GetRandomProduct")
+    }
+    
+    <div class="empty-cat"></div>
+</div>
+
