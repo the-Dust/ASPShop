@@ -15,15 +15,39 @@ namespace Web
 
             routes.MapRoute(
                 name: null,
-                url: "Page{page}",
-                defaults: new { controller = "Product", action = "GetCatalogue" }
+                url: "",
+                defaults: new { controller = "Product", action = "GetCatalogue", productTypeId = 0, page=1 }
             );
 
+
+            routes.MapRoute(
+                name: null,
+                url: "Page{page}",
+                defaults: new { controller = "Product", action = "GetCatalogue", productTypeId = 0 },
+                constraints: new { page = @"\d+" }
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "{productTypeId}",
+                defaults: new { controller = "Product", action = "GetCatalogue", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "{productTypeId}/Page{page}",
+                defaults: new { controller = "Product", action = "GetCatalogue"},
+                constraints: new { page = @"\d+" }
+            );
+
+            routes.MapRoute(null, "{controller}/{action}");
+
+            /*
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
-            );
+            );*/
         }
     }
 }

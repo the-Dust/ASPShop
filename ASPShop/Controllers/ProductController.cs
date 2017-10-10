@@ -39,7 +39,7 @@ namespace Web.Controllers
 
             PagingInfo pagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = tempProducts.Count() };
 
-            ProductCatalogue model = new ProductCatalogue { Products=products, PagingInfo=pagingInfo};
+            ProductCatalogue model = new ProductCatalogue { Products=products, PagingInfo=pagingInfo, CurrentProductTypeId = productTypeId };
 
             return View(model);
         }
