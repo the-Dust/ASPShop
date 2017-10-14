@@ -484,6 +484,7 @@ ul {
     /*text-transform: uppercase;*/
     background: #fb4d01 linear-gradient(to bottom, #fb4d01, #db2d01) repeat scroll 0 0;
     border-radius: 5px;
+    border: 0 none;
     color: #ffffff;
     cursor: pointer;
     /*display: inline-block;*/
@@ -503,6 +504,12 @@ ul {
         background: #fb4d01 linear-gradient(to bottom, #fd5d01, #bd1d01) repeat scroll 0 0;
         text-decoration: none;
     }
+
+
+    .button-buy:active {
+        padding-top: 2px;
+        padding-left: 2px;
+    } 
 
 .hr {
     width: 313px;

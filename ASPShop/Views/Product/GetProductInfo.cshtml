@@ -31,7 +31,15 @@
             <li><b>Сплав:</b>&nbsp;Чистая сталь</li>
         </ul>
         <div class="hr"></div>
-        <a class="buy_oneclick button-buy" data-product="@Model.Name">Купить</a>
+        @using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            <div class="">
+                @Html.HiddenFor(x=>x.Id)
+                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                <input type="submit" class="button-buy" value="В корзину"/>
+            </div>
+        }
+
     </div>
     <div class="description_head"><h2>Описание товара</h2></div>
     <div class="description">
