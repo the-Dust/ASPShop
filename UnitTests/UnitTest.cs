@@ -14,7 +14,7 @@ using NUnit;
 namespace GameStore.UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTest
     {
         Mock<IProductService> mock = new Mock<IProductService>();
         Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
@@ -50,7 +50,7 @@ namespace GameStore.UnitTests
             mockType.Setup(m=>m.GetProductTypes()).Returns(listType);
         }
 
-        public UnitTest1()
+        public UnitTest()
         {
             MockSetup("");
         }

@@ -77,8 +77,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CartUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

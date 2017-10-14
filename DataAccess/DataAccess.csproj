@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Context\EfDbContext.cs" />
     <Compile Include="Entities\Base\BaseIdEntity.cs" />
+    <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\CartLine.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\ProductType.cs" />
