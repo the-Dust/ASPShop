@@ -18,41 +18,35 @@ namespace Web.Controllers
             this.productService = productService;
         }
 
-        public ViewResult Index(string returnUrl)
+        public ViewResult Index(Cart cart, string returnUrl)
         {
-            CartIndexViewModel model = new CartIndexViewModel { Cart = GetCart(), ReturnUrl = returnUrl };
+            CartIndexViewModel model = new CartIndexViewModel { Cart = cart, ReturnUrl = returnUrl };
             return View(model);
         }
 
-        public Cart GetCart()
-        {
-            Cart cart = (Cart)Session["Cart"];
-            if (cart == null)
-            {
-                cart = new Cart();
-                Session["Cart"] = cart;
-            }
-            return cart;
-        }
-
-        public RedirectToRouteResult AddToCart(int id, string returnUrl)
+        public RedirectToRouteResult AddToCart(Cart cart, int id, string returnUrl)
         {
             Product product = productService.GetProduct(id);
 
             if (product != null)
-                GetCart().AddItem(product, 1);
+                cart.AddItem(product, 1);
 
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToRouteResult RemoveFromCart(int productId, string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl)
         {
             Product product = productService.GetProduct(productId);
 
             if (product != null)
-                GetCart().RemoveLine(product);
+                cart.RemoveLine(product);
 
             return RedirectToAction("Index", new { returnUrl });
+        }
+
+        public PartialViewResult Summary(Cart cart)
+        {
+            return PartialView(cart);
         }
     }
 }

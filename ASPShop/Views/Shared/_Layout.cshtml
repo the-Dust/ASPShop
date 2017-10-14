@@ -35,7 +35,11 @@
                             </a>
                         </li>
                     </ul>
+                    
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            @Html.Action("Summary", "Cart")
+                        </li>
                         <li id="loginLinkId">
                             @Html.Action("LoginLink", "Login")
                         </li>

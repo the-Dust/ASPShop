@@ -9,6 +9,8 @@ using System.Data.Entity;
 using DataAccess.Context;
 using Web.App_Start;
 using System.Web.Optimization;
+using DataAccess.Entities;
+using Web.Infrastructure.Binders;
 
 namespace Web
 {
@@ -25,6 +27,8 @@ namespace Web
             Database.SetInitializer(new EfDbInitializer());
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
+
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
         }
     }
 }
