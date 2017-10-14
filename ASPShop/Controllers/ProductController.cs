@@ -14,12 +14,14 @@ namespace Web.Controllers
     public class ProductController : Controller
     {
         private IProductService productService = null;
+        private IProductTypeService productTypeService = null;
 
         public int PageSize { get; set; } = 4;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IProductTypeService productTypeService)
         {
             this.productService = productService;
+            this.productTypeService = productTypeService;
         }
 
         [HttpGet]
@@ -31,15 +33,17 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetCatalogue(int productTypeId=0, int page=1)
+        public ViewResult GetCatalogue(string category=null, int page=1)
         {
+            int productTypeId = productTypeService.GetProductTypeId(ref category);
+
             var tempProducts = productService.GetProducts(productTypeId);
 
             var products = tempProducts.OrderBy(x => x.Id).Skip((page - 1) * PageSize).Take(PageSize);
 
             PagingInfo pagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = tempProducts.Count() };
 
-            ProductCatalogue model = new ProductCatalogue { Products=products, PagingInfo=pagingInfo, CurrentProductTypeId = productTypeId };
+            ProductCatalogue model = new ProductCatalogue { Products=products, PagingInfo=pagingInfo, CurrentCategory = category };
 
             return View(model);
         }

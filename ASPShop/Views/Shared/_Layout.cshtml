@@ -59,9 +59,7 @@
                         <div class="menu-cat">
                             <a href="@Url.Action("GetCatalogue", "Product")"><span>Каталог</span></a>
                             <ul class="menu menu-throw-cat">
-                                <li><a href="#"><span>Струны для электрогитары</span></a></li>
-                                <li><a href="#"><span>Струны для баса</span></a></li>
-                                <li><a href="#"><span>Струны для акустики</span></a></li>
+                                @Html.Action("Menu", "Nav")
                             </ul>
                         </div>
                     </li>

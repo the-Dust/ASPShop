@@ -233,6 +233,7 @@ ul {
         height: 100%;
         line-height: 40px;
         color: #000000;
+        
     }
 
         .menu a > span {
@@ -243,6 +244,8 @@ ul {
             background-color: #333333;
             color: white;
         }
+
+        
 
 .menu-throw {
     display: none;
@@ -256,12 +259,17 @@ ul {
 
 .menu-throw-cat {
     display: none;
-    width: 260px;
+    width: 300px;
     position: absolute;
     top: 40px;
     left: 216px;
     z-index: 1;
     background-color: #abeafa;
+}
+
+.selected {
+    color: white !important;
+    background-color: #333333;
 }
 
 .menu-contacts:hover .menu-throw {

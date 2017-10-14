@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Web.Controllers;
 using Web.Models;
 using Web.Models.HtmlHelpers;
+using NUnit;
 
 namespace GameStore.UnitTests
 {
@@ -16,6 +17,7 @@ namespace GameStore.UnitTests
     public class UnitTest1
     {
         Mock<IProductService> mock = new Mock<IProductService>();
+        Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
 
         List<Product> list = new List<Product>
             {
@@ -30,28 +32,38 @@ namespace GameStore.UnitTests
                 new Product { Id=9, ProductTypeId=3, Name="Product9", Cost=1200.00},
             };
 
-        private void MockSetup()
+        List<ProductType> listType = new List<ProductType>
+            {
+                new ProductType { Id=1, Name="Electric", Description="Струны для электрогитары" },
+                new ProductType { Id=2, Name="Bass", Description="Струны для бас-гитары" },
+                new ProductType { Id=3, Name="Acoustic", Description="Струны для акустической гитары" }
+            };
+
+        private void MockSetup(string str)
         {
             mock.Setup(m => m.GetProducts()).Returns(list);
 
             mock.Setup(m => m.GetProducts(It.IsAny<int>())).Returns<int>(i=>i==0?list:list.Where(x =>x.ProductTypeId ==i));
 
+            mockType.Setup(m => m.GetProductTypeId(ref str)).Returns(listType.FirstOrDefault(y => y.Name == str)?.Id??-1);
+
+            mockType.Setup(m=>m.GetProductTypes()).Returns(listType);
         }
 
         public UnitTest1()
         {
-            MockSetup();
+            MockSetup("");
         }
 
         [TestMethod]
         public void CanPaginate()
         {
             // Организация (arrange)
-            ProductController controller = new ProductController(mock.Object);
+            ProductController controller = new ProductController(mock.Object, mockType.Object);
             controller.PageSize = 3;
 
             // Действие (act)
-            ProductCatalogue result = (ProductCatalogue)((ViewResult)controller.GetCatalogue(0,3)).Model;
+            ProductCatalogue result = (ProductCatalogue)((ViewResult)controller.GetCatalogue(null,3)).Model;
 
             // Утверждение (assert)
             List<Product> products = result.Products.ToList();
@@ -91,11 +103,11 @@ namespace GameStore.UnitTests
         public void CanSendPaginationViewModel()
         {
             // Организация (arrange)
-            ProductController controller = new ProductController(mock.Object);
+            ProductController controller = new ProductController(mock.Object, mockType.Object);
             controller.PageSize = 3;
 
             // Act
-            ProductCatalogue result = (ProductCatalogue)((ViewResult)controller.GetCatalogue(productTypeId: 0, page: 2)).Model;
+            ProductCatalogue result = (ProductCatalogue)((ViewResult)controller.GetCatalogue(category: null, page: 2)).Model;
 
             // Assert
             PagingInfo pageInfo = result.PagingInfo;
@@ -109,16 +121,80 @@ namespace GameStore.UnitTests
         public void CanFilterProducts()
         {
             // Организация (arrange)
-            ProductController controller = new ProductController(mock.Object);
-            controller.PageSize = 8;
+            ProductController controller = new ProductController(mock.Object, mockType.Object);
+            controller.PageSize = 20;
+
+            string str = "Acoustic";
+            MockSetup(str);
 
             // Action
-            List<Product> result = ((ProductCatalogue)((ViewResult)controller.GetCatalogue(2, 1)).Model).Products.ToList();
+            List<Product> result = ((ProductCatalogue)((ViewResult)controller.GetCatalogue(str, 1)).Model).Products.ToList();
 
             // Assert
-            Assert.AreEqual(result.Count(), 2);
-            Assert.IsTrue(result[0].Name == "Product4" && result[0].ProductTypeId == 2);
-            Assert.IsTrue(result[1].Name == "Product8" && result[1].ProductTypeId == 2);
+            Assert.AreEqual(6, result.Count());
+            Assert.IsTrue(result[0].Name == "Product1" && result[0].ProductTypeId == 3);
+            Assert.IsTrue(result[1].Name == "Product2" && result[1].ProductTypeId == 3);
+            Assert.IsTrue(result[2].Name == "Product3" && result[2].ProductTypeId == 3);
+            Assert.IsTrue(result[3].Name == "Product5" && result[3].ProductTypeId == 3);
+            Assert.IsTrue(result[4].Name == "Product6" && result[4].ProductTypeId == 3);
+            Assert.IsTrue(result[5].Name == "Product9" && result[5].ProductTypeId == 3);
+        }
+
+        [TestMethod]
+        public void CanCreateCategories()
+        {
+            NavController controller = new NavController(mockType.Object);
+
+            List<ProductType> result = ((IEnumerable<ProductType>)controller.Menu().Model).ToList();
+
+            Assert.AreEqual(result.Count, 3);
+            Assert.AreEqual(result[0].Description, "Струны для электрогитары");
+            Assert.AreEqual(result[1].Description, "Струны для бас-гитары");
+            Assert.AreEqual(result[2].Description, "Струны для акустической гитары");
+        }
+
+        [TestMethod]
+        public void IndicatesSelectedCategory()
+        {
+            NavController controller = new NavController(mockType.Object);
+
+            string categoryToSelect = "Acoustic";
+
+            string result = controller.Menu(categoryToSelect).ViewBag.SelectedCategory;
+
+            Assert.AreEqual(categoryToSelect, result);
+        }
+
+        [TestMethod]
+        public void GenerateSpecificCategoryCount()
+        {
+            ProductController controller = new ProductController(mock.Object, mockType.Object);
+
+            controller.PageSize = 3;
+
+            string str = "Electric";
+
+            MockSetup(str);
+
+            int res1 = ((ProductCatalogue)controller.GetCatalogue(str).Model).PagingInfo.TotalItems;
+
+            str = "Acoustic";
+
+            MockSetup(str);
+
+            int res2 = ((ProductCatalogue)controller.GetCatalogue(str).Model).PagingInfo.TotalItems;
+
+            str = "Bass";
+
+            MockSetup(str);
+
+            int res3 = ((ProductCatalogue)controller.GetCatalogue(str).Model).PagingInfo.TotalItems;
+            int resAll = ((ProductCatalogue)controller.GetCatalogue(null).Model).PagingInfo.TotalItems;
+
+            Assert.AreEqual(1, res1);
+            Assert.AreEqual(res2, 6);
+            Assert.AreEqual(res3, 2);
+            Assert.AreEqual(resAll, 9);
         }
     }
 

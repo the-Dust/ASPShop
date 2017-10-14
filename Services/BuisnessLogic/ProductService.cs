@@ -26,7 +26,7 @@ namespace Services.BuisnessLogic
 
         public IEnumerable<Product> GetProducts(int productTypeId)
         {
-            return productRepository.GetProducts().Where(x=>productTypeId==0||x.ProductTypeId==productTypeId);
+            return productRepository.GetProducts().Where(x=>productTypeId==-1||x.ProductTypeId==productTypeId);
         }
 
         public IEnumerable<Product> GetProducts(Expression<Func<Product, bool>> func)

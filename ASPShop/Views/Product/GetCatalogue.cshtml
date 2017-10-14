@@ -12,7 +12,7 @@
 
 <div class="page-links-container">
     <div class="page-links">
-        @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetCatalogue", new { page = x }))
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetCatalogue", new { page = x, category = Model.CurrentCategory }))
     </div>
 </div>
 

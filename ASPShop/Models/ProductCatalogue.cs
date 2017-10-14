@@ -12,6 +12,6 @@ namespace Web.Models
 
         public PagingInfo PagingInfo { get; set; }
 
-        public int CurrentProductTypeId { get; set; }
+        public string CurrentCategory { get; set; }
     }
 }
