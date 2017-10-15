@@ -11,7 +11,8 @@ namespace Web.Controllers
 {
     public class LoginController : Controller
     {
-        [HttpGet]
+        //[HttpGet]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LoginLink()
         {
             //var cookie = FormsAuthentication.GetAuthCookie(FormsAuthentication.FormsCookieName, true);

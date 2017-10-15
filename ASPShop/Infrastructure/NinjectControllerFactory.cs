@@ -9,6 +9,9 @@ using DataAccess.Repositories.Base;
 using Services.BuisnessLogic.Base;
 using DataAccess.Repositories;
 using Services.BuisnessLogic;
+using DataAccess.Entities;
+using System.Configuration;
+using DataAccess.Entities.Base;
 
 namespace Web.Infrastructure
 {
@@ -35,6 +38,15 @@ namespace Web.Infrastructure
             kernel.Bind<IRoleService>().To<RoleService>();
             kernel.Bind<IProductService>().To<ProductService>();
             kernel.Bind<IProductTypeService>().To<ProductTypeService>();
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager
+                    .AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings", emailSettings);
         }
 
         protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
