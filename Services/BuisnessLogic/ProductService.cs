@@ -53,5 +53,10 @@ namespace Services.BuisnessLogic
         {
             productRepository.UpdateProduct(product);
         }
+
+        public void AddProduct(Product product)
+        {
+            productRepository.AddProduct(product);
+        }
     }
 }

@@ -1,0 +1,96 @@
+﻿@model DataAccess.Entities.Product
+
+
+
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    Редактирование модели с Id=@Model.Id
+                </h4>
+            </div>
+       @using (Html.BeginForm(null, null, FormMethod.Post,
+                new { id = "productform", @class = "row" }))
+       {
+        <div class="modal-body">
+            @Html.HiddenFor(m=>m.Id)
+            @foreach (var prop in ViewData.ModelMetadata.Properties)
+            {
+                if (prop.PropertyName != "Id"&&prop.PropertyName != "ProductTypeId")
+                {
+                    <div class="form-group col-md-8">
+                        <label>@(prop.DisplayName ?? prop.PropertyName)</label>
+                        @switch (prop.PropertyName)
+                        {
+                            case "Description":
+                            case "ShortDescription":
+                                @Html.TextArea(prop.PropertyName, null, new { @class = "form-control", rows = 5 })
+                                break;
+                            case "ProductType":
+                                @Html.DropDownListFor(x => x.ProductTypeId,
+                           (ViewBag.Types as IEnumerable<string>)
+                           .Select((e, i) => new SelectListItem { Value = (i + 1).ToString(), Text = e }),
+                           new { @class = "form-control" })
+                                break;
+                            case "ImageLink":
+                                <a class='btn' href='javascript:;'>
+                                    Выберите файл...
+                                    <input type="file" name="Image" size="40"
+                                           onchange='$("#upload-file-info").html($(this).val());'>
+                                </a>
+                                break;
+                            default:
+                                @Html.TextBox(prop.PropertyName, null, new { @class = "form-control"})
+                                break;
+                        }
+                    </div>
+                }
+            }
+            
+            <button type="submit" id="submitBtn" class="hidden"></button>
+        </div>
+
+        }
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+                <button type="button" id="saveBtn" class="btn btn-default">Сохранить</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    $(function () {
+        $('#saveBtn').click(function () {
+            $('#submitBtn').click();
+                        });
+
+        $('#productform').submit(function (e) {
+                            e.preventDefault();
+
+            //var formData = new FormData($('#productform')[0]);
+            //formData.append($('#productform').serialize());
+
+            $.ajax({
+                url: '@Url.Action("UpdateProduct")',
+                method: 'POST',
+                data: $('#productform').serialize(),
+                success:function(response){
+                                    if (response && response.IsSaved)
+                                    {
+                        $('#productModal').modal('show');
+                                        window.location.href = window.location.href;
+                                    }
+                                },
+                error:function(err){
+                                    console.log(err);
+                                }
+                            });
+
+            return false;
+        })
+    })
+</script>

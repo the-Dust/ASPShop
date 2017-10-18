@@ -23,5 +23,7 @@ namespace Services.BuisnessLogic.Base
         void RemoveProduct(int productId);
 
         void UpdateProduct(Product product);
+
+        void AddProduct(Product product);
     }
 }

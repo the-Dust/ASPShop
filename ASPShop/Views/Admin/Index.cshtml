@@ -53,7 +53,7 @@
             $.ajax({
                 method: 'GET',
                 data: null,
-                url: '@Url.Action("GetProductPartial")' + '?productId=' + prodId,
+                url: '@Url.Action("Edit")' + '?productId=' + prodId,
                 success: function (partialView) {
                     $('#modal-content').empty().html(partialView);
                     $('#productModal').modal('show');
