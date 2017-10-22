@@ -40,10 +40,8 @@
             </div>
         </div> 
     </div>
-    <div class="">
-        @Html.ActionLink("Добавить товар", "Create", null,
-            new { @class = "btn btn-default" })
-    </div>
+    <button class="btn btn-default" onclick="showProductModal(this, 0)">Добавить товар</button>
+
 </div>
 <button class="hidden" id="submitBtn" data-toggle="modal" data-target="#myModal"></button>
 <div id="modal-content">
@@ -78,7 +76,7 @@
 
         function removeProduct(btn, prodId) {
             $.ajax({
-                method: 'GET',
+                method: 'POST',
                 data: null,
                 url: '@Url.Action("RemoveProduct")' + '?productId=' + prodId,
                 success: function (response) {

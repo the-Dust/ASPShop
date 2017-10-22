@@ -54,6 +54,7 @@ namespace DataAccess.Repositories
         public void AddProduct(Product product)
         {
             context.Products.Add(product);
+            context.SaveChanges();
         }
     }
 }

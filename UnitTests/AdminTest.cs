@@ -68,9 +68,9 @@ namespace UnitTests
 
             AdminController controller = new AdminController(mock.Object, mockType.Object);
 
-            Product p1 = ((PartialViewResult)controller.Edit(1)).Model as Product;
-            Product p2 = ((PartialViewResult)controller.Edit(2)).Model as Product;
-            Product p3 = ((PartialViewResult)controller.Edit(3)).Model as Product;
+            Product p1 = ((PartialViewResult)controller.GetProduct(1)).Model as Product;
+            Product p2 = ((PartialViewResult)controller.GetProduct(2)).Model as Product;
+            Product p3 = ((PartialViewResult)controller.GetProduct(3)).Model as Product;
 
             Assert.AreEqual(1, p1.Id);
             Assert.AreEqual(2, p2.Id);
@@ -118,15 +118,12 @@ namespace UnitTests
 
             Product p1 = new Product { Name="Test"};
 
-            JsonResult result = controller.UpdateProduct(p1);
+            ActionResult result = controller.UpdateProduct(p1);
 
-            bool response = (bool)result.Data.GetType().GetProperties()
-                            .Where(p => string.Compare(p.Name, "IsSaved") == 0)
-                            .FirstOrDefault().GetValue(result.Data, null); 
 
             mock.Verify(m => m.UpdateProduct(p1));
 
-            Assert.AreEqual(true, response);
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
         }
 
         [TestMethod]
@@ -141,15 +138,37 @@ namespace UnitTests
 
             controller.ModelState.AddModelError("error", "error");
 
-            JsonResult result = controller.UpdateProduct(p1);
-
-            bool response = (bool)result.Data.GetType().GetProperties()
-                            .Where(p => string.Compare(p.Name, "IsSaved") == 0)
-                            .FirstOrDefault().GetValue(result.Data, null);
+            ActionResult result = controller.UpdateProduct(p1);
 
             mock.Verify(m => m.UpdateProduct(It.IsAny<Product>()), Times.Never);
 
-            Assert.AreEqual(false, response);
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
+
+        [TestMethod]
+        public void CanDeleteValidGames()
+        {
+            Mock<IProductService> mock = new Mock<IProductService>();
+            Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
+
+            List<Product> list = new List<Product>
+            {
+                new Product { Id=1, ProductTypeId=3, Name="Product1", Cost=1200.00},
+                new Product { Id=2, ProductTypeId=3, Name="Product2", Cost=1200.00},
+                new Product { Id=3, ProductTypeId=3, Name="Product3", Cost=1200.00},
+                new Product { Id=4, ProductTypeId=2, Name="Product4", Cost=1200.00},
+                new Product { Id=5, ProductTypeId=3, Name="Product5", Cost=1200.00},
+                new Product { Id=6, ProductTypeId=3, Name="Product6", Cost=1200.00},
+                new Product { Id=7, ProductTypeId=1, Name="Product7", Cost=1200.00},
+                new Product { Id=8, ProductTypeId=2, Name="Product8", Cost=1200.00},
+                new Product { Id=9, ProductTypeId=3, Name="Product9", Cost=1200.00},
+            };
+
+            AdminController controller = new AdminController(mock.Object, mockType.Object);
+
+            controller.RemoveProduct(2);
+
+            mock.Verify(m => m.RemoveProduct(2), Times.Once);
         }
     }
 }

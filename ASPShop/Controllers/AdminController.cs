@@ -33,7 +33,6 @@ namespace Web.Controllers
             return PartialView("Modal/_Edit", productId);
         }
 
-        
         public PartialViewResult GetProduct(int productId)
         {
             var product = productService.GetProduct(productId);
@@ -44,7 +43,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateProduct(Product product)
+        public ActionResult UpdateProduct([Bind(Exclude = "Id")] Product product)
         {
             ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
 
@@ -61,6 +60,13 @@ namespace Web.Controllers
 
             }
             return PartialView("Modal/_ProductPartial", product);
+        }
+
+        [HttpPost]
+        public JsonResult RemoveProduct(int productId)
+        {
+            productService.RemoveProduct(productId);
+            return Json(new { IsRemoved = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }
