@@ -7,10 +7,11 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-11 ">
+        <div class="col-md-11">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <tr>
+                        <th>ID</th>
                         <th>Наименование</th>
                         <th>Описание</th>
                         <th>Стоимость</th>
@@ -20,6 +21,7 @@
                     @foreach (var product in Model)
                     {
                         <tr>
+                            <td>@product.Id</td>
                             <td>@product.Name</td>
                             <td>@product.Description</td>
                             <td>@product.Cost</td>
@@ -43,8 +45,8 @@
             new { @class = "btn btn-default" })
     </div>
 </div>
+<button class="hidden" id="submitBtn" data-toggle="modal" data-target="#myModal"></button>
 <div id="modal-content">
-    
 </div>
 
 @section Scripts{
@@ -56,7 +58,7 @@
                 url: '@Url.Action("Edit")' + '?productId=' + prodId,
                 success: function (partialView) {
                     $('#modal-content').empty().html(partialView);
-                    $('#productModal').modal('show');
+                    $('#submitBtn').click();
             },
             error: function(){
                 console.log(err);

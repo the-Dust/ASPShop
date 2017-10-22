@@ -27,19 +27,27 @@ namespace Web.Controllers
             return View(products);
         }
 
-        [HttpGet]
-        public ActionResult Edit(int productId)
+        
+        public PartialViewResult Edit(int productId)
+        {
+            return PartialView("Modal/_Edit", productId);
+        }
+
+        
+        public PartialViewResult GetProduct(int productId)
         {
             var product = productService.GetProduct(productId);
 
             ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
 
-            return PartialView("Modal/_ProductPartial", product);
+            return PartialView("Modal/_ProductTemp", product);
         }
 
         [HttpPost]
-        public JsonResult UpdateProduct(Product product)
+        public ActionResult UpdateProduct(Product product)
         {
+            ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
+
             if (ModelState.IsValid)
             {
                 if (product.Id == 0)
@@ -49,9 +57,11 @@ namespace Web.Controllers
 
                 productService.UpdateProduct(product);
 
-                return Json(new { IsSaved = true }, JsonRequestBehavior.AllowGet);
+                TempData["message"] = string.Format($"Изменения в товаре \"{product.Name}\" были сохранены");
+
+                return PartialView("Modal/_ProductTemp", product);
             }
-            return Json(new { IsSaved = false }, JsonRequestBehavior.AllowGet);
+            return PartialView("Modal/_ProductTemp", product);
         }
     }
 }

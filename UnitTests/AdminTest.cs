@@ -31,7 +31,7 @@ namespace UnitTests
                 new Product { Id=9, ProductTypeId=3, Name="Product9", Cost=1200.00},
             });
 
-            AdminController controller = new AdminController(mock.Object);
+            AdminController controller = new AdminController(mock.Object, null);
 
             List<Product> result = ((IEnumerable<Product>)controller.Index().ViewData.Model).ToList();
 
@@ -46,6 +46,7 @@ namespace UnitTests
         public void CanEditGame()
         {
             Mock<IProductService> mock = new Mock<IProductService>();
+            Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
 
             List<Product> list = new List<Product>
             {
@@ -61,10 +62,11 @@ namespace UnitTests
             };
 
             mock.Setup(m => m.GetProducts()).Returns(list);
+            mockType.Setup(m => m.GetProductTypes()).Returns(new ProductType[] { new ProductType() { Name="", Description = "" } });
 
             mock.Setup(m => m.GetProduct(It.IsAny<int>())).Returns<int>(x => list.FirstOrDefault(p => p.Id == x));
 
-            AdminController controller = new AdminController(mock.Object);
+            AdminController controller = new AdminController(mock.Object, mockType.Object);
 
             Product p1 = ((PartialViewResult)controller.Edit(1)).Model as Product;
             Product p2 = ((PartialViewResult)controller.Edit(2)).Model as Product;
@@ -80,6 +82,7 @@ namespace UnitTests
         public void CannotEditNonexistentGame()
         {
             Mock<IProductService> mock = new Mock<IProductService>();
+            Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
 
             List<Product> list = new List<Product>
             {
@@ -95,14 +98,58 @@ namespace UnitTests
             };
 
             mock.Setup(m => m.GetProducts()).Returns(list);
-
+            mockType.Setup(m => m.GetProductTypes()).Returns(new ProductType[] { new ProductType() { Name = "", Description = "" } });
             mock.Setup(m => m.GetProduct(It.IsAny<int>())).Returns<int>(x => list.FirstOrDefault(p => p.Id == x));
 
-            AdminController controller = new AdminController(mock.Object);
+            AdminController controller = new AdminController(mock.Object, mockType.Object);
 
             Product p1 = ((PartialViewResult)controller.Edit(10)).Model as Product;
 
             Assert.AreEqual(null, p1);
+        }
+
+        [TestMethod]
+        public void CanSaveValidChanges()
+        {
+            Mock<IProductService> mock = new Mock<IProductService>();
+            Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
+
+            AdminController controller = new AdminController(mock.Object, mockType.Object);
+
+            Product p1 = new Product { Name="Test"};
+
+            JsonResult result = controller.UpdateProduct(p1);
+
+            bool response = (bool)result.Data.GetType().GetProperties()
+                            .Where(p => string.Compare(p.Name, "IsSaved") == 0)
+                            .FirstOrDefault().GetValue(result.Data, null); 
+
+            mock.Verify(m => m.UpdateProduct(p1));
+
+            Assert.AreEqual(true, response);
+        }
+
+        [TestMethod]
+        public void CannotSaveInvalidChanges()
+        {
+            Mock<IProductService> mock = new Mock<IProductService>();
+            Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
+
+            AdminController controller = new AdminController(mock.Object, mockType.Object);
+
+            Product p1 = new Product { Name = "Test" };
+
+            controller.ModelState.AddModelError("error", "error");
+
+            JsonResult result = controller.UpdateProduct(p1);
+
+            bool response = (bool)result.Data.GetType().GetProperties()
+                            .Where(p => string.Compare(p.Name, "IsSaved") == 0)
+                            .FirstOrDefault().GetValue(result.Data, null);
+
+            mock.Verify(m => m.UpdateProduct(It.IsAny<Product>()), Times.Never);
+
+            Assert.AreEqual(false, response);
         }
     }
 }

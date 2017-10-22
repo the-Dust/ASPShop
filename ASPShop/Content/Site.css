@@ -1,4 +1,12 @@
-﻿.navbar-nav > li a
+﻿/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea,
+.alert{
+    max-width: 500px;
+}
+
+.navbar-nav > li a
 {
         display: inline !important;
         padding:0px,10px,0px,10px !important;
@@ -6,9 +14,7 @@
 
 .ajax-loader {
     display: block;
-    width: 16px;
-    height: 16px;
-    background-image: url('./Images/ajax-loader.gif');
-    background-repeat: no-repeat;
-    background-size: cover;
+    width: 11px;
+    height: 18px;
+    background: url('./Images/ajax-loader.gif') no-repeat center center;
 }

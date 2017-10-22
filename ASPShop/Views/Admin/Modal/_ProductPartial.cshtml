@@ -11,10 +11,7 @@
                     Редактирование модели с Id=@Model.Id
                 </h4>
             </div>
-       @using (Html.BeginForm(null, null, FormMethod.Post,
-                new { id = "productform", @class = "row" }))
-       {
-        <div class="modal-body">
+        <div class="modal-body" id="frm1">
             @Html.HiddenFor(m=>m.Id)
             @foreach (var prop in ViewData.ModelMetadata.Properties)
             {
@@ -45,52 +42,18 @@
                                 @Html.TextBox(prop.PropertyName, null, new { @class = "form-control"})
                                 break;
                         }
+                        @Html.ValidationMessage(prop.PropertyName)
                     </div>
                 }
             }
             
-            <button type="submit" id="submitBtn" class="hidden"></button>
+
         </div>
 
-        }
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
-                <button type="button" id="saveBtn" class="btn btn-default">Сохранить</button>
-            </div>
+
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript">
-    $(function () {
-        $('#saveBtn').click(function () {
-            $('#submitBtn').click();
-                        });
-
-        $('#productform').submit(function (e) {
-                            e.preventDefault();
-
-            //var formData = new FormData($('#productform')[0]);
-            //formData.append($('#productform').serialize());
-
-            $.ajax({
-                url: '@Url.Action("UpdateProduct")',
-                method: 'POST',
-                data: $('#productform').serialize(),
-                success:function(response){
-                                    if (response && response.IsSaved)
-                                    {
-                        $('#productModal').modal('show');
-                                        window.location.href = window.location.href;
-                                    }
-                                },
-                error:function(err){
-                                    console.log(err);
-                                }
-                            });
-
-            return false;
-        })
-    })
-</script>

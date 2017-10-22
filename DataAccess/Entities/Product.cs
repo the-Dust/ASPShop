@@ -14,12 +14,13 @@ namespace DataAccess.Entities
     {
         [Column(TypeName = "nvarchar")]
         [Index("UX_Product_Name_ProductTypeId", IsUnique = true, Order = 1)]
-        [Required]
+        [Required(ErrorMessage = "Введите название товара")]
         [MaxLength(2000)]
         [Display(Name = "Наименование")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Введите цену")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Введите положительное значение для цены")]
         [Display(Name = "Цена, руб")]
         public double Cost { get; set; }
 
