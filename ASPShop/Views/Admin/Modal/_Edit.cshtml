@@ -20,10 +20,20 @@
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-primary" value="Сохранить" />
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="closeBtn">Закрыть</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    $(function () {
+        $('#closeBtn').click(function () {
+            window.location.href = window.location.href;
+        });
+
+    })
+</script>
+

@@ -40,7 +40,7 @@ namespace Web.Controllers
 
             ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
 
-            return PartialView("Modal/_ProductTemp", product);
+            return PartialView("Modal/_ProductPartial", product);
         }
 
         [HttpPost]
@@ -59,9 +59,8 @@ namespace Web.Controllers
 
                 TempData["message"] = string.Format($"Изменения в товаре \"{product.Name}\" были сохранены");
 
-                return PartialView("Modal/_ProductTemp", product);
             }
-            return PartialView("Modal/_ProductTemp", product);
+            return PartialView("Modal/_ProductPartial", product);
         }
     }
 }
