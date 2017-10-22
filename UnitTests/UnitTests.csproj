@@ -77,10 +77,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest.cs" />
+    <Compile Include="Tests\UnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CartUnitTest.cs" />
-    <Compile Include="AdminTest.cs" />
+    <Compile Include="Tests\CartUnitTest.cs" />
+    <Compile Include="Tests\AdminTest.cs" />
+    <Compile Include="Tests\LoginTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

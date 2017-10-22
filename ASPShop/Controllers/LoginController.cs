@@ -6,11 +6,19 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading;
+using Web.Infrastructure.Base;
 
 namespace Web.Controllers
 {
     public class LoginController : Controller
     {
+        IAuthProvider authProvider;
+
+        public LoginController(IAuthProvider authProvider)
+        {
+            this.authProvider = authProvider;
+        }
+
         //[HttpGet]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LoginLink()
@@ -33,6 +41,7 @@ namespace Web.Controllers
             return View();
         }
 
+        /*
         [HttpPost]
         public ActionResult Login(LoginUser user)
         {
@@ -45,6 +54,32 @@ namespace Web.Controllers
             }    
             return View();
         }
+        */
+
+        [HttpPost]
+        public ActionResult Login(LoginUser user, string returnUrl=null)
+        {
+            if (!string.IsNullOrWhiteSpace(user.UserName) &&
+                !string.IsNullOrWhiteSpace(user.Password) &&
+                ModelState.IsValid)
+            {
+                if (authProvider.Authenticate(user.UserName, user.Password))
+                {
+                    return Redirect(returnUrl ?? Url.Action("Index", "Admin"));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Неправильный логин или пароль");
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+
 
         [HttpPost]
         public ActionResult LoginModal(LoginUser user)

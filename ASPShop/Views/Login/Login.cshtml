@@ -8,6 +8,7 @@
 @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class="container-fluid"}))
 {
     <div class="form-group row">
+        @Html.ValidationSummary()
         <div class="col-md-5 col-md-offset-3">
             <label for="UserName">User</label>
             <input id="UserName" name="UserName" type="text" class="form-control" placeholder="User">

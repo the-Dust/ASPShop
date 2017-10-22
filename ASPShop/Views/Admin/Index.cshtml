@@ -40,7 +40,9 @@
             </div>
         </div> 
     </div>
-    <button class="btn btn-default" onclick="showProductModal(this, 0)">Добавить товар</button>
+    <button class="btn btn-default" onclick="showProductModal(this, 0)">
+        <i class="glyphicon glyphicon-plus"></i>
+    </button>
 
 </div>
 <button class="hidden" id="submitBtn" data-toggle="modal" data-target="#myModal"></button>
@@ -64,7 +66,7 @@
             beforeSend: function(){
                 var i = $(btn).find('i');
                 i.addClass('hidden');
-                $('<div class="ajax-loader">').insertAfter(i);
+                $('<div class="ajax-loader"></div>').insertAfter(i);
             },
             complete: function () {
                 var i = $(btn).find('i');

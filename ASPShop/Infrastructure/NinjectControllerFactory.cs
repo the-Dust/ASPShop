@@ -12,6 +12,7 @@ using Services.BuisnessLogic;
 using DataAccess.Entities;
 using System.Configuration;
 using DataAccess.Entities.Base;
+using Web.Infrastructure.Base;
 
 namespace Web.Infrastructure
 {
@@ -47,6 +48,8 @@ namespace Web.Infrastructure
 
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
                 .WithConstructorArgument("settings", emailSettings);
+
+            kernel.Bind<IAuthProvider>().To<FormAuthProvider>();
         }
 
         protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Web.Controllers
 {
-    [Authorize()]
+    [Authorize(Users ="admin")]
     public class AdminController : Controller
     {
         private IProductService productService = null;
