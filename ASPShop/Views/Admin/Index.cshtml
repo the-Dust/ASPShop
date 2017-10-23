@@ -13,7 +13,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Наименование</th>
-                        <th>Описание</th>
+                        <th>Фото</th>
                         <th>Стоимость</th>
                         <th>Тип</th>
                         <th>Действие</th>
@@ -23,14 +23,22 @@
                         <tr>
                             <td>@product.Id</td>
                             <td>@product.Name</td>
-                            <td>@product.Description</td>
+                            <td>
+                                @using (Html.BeginForm("Upload", "Admin", new { productId = product.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <label class="fileContainer">
+                                        <img class="preview-img" src=@("/Content/Images/" + product.ImageLink) alt="@product.Name" />
+                                        <input type="file" name="upload" accept="image/*" class="btn btn-xs btn-warning" onchange="this.form.submit()">
+                                    </label>
+                                }
+</td>
                             <td>@product.Cost</td>
                             <td>@(product.ProductType.Name + " (" + product.ProductType.Description + ")")</td>
                             <td>
-                                <button class="btn btn-xs btn-warning" onclick="showProductModal(this, @product.Id)">
+                                <button class="btn btn-xs btn-warning" title="Редактировать продукт" onclick="showProductModal(this, @product.Id)">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </button> 
-                                <button class="btn btn-xs btn-danger" onclick="removeProduct(this, @product.Id)">
+                                <button class="btn btn-xs btn-danger" title="Удалить продукт" onclick="removeProduct(this, @product.Id)">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </button>
                             </td>
@@ -40,7 +48,7 @@
             </div>
         </div> 
     </div>
-    <button class="btn btn-default" onclick="showProductModal(this, 0)">
+    <button class="btn btn-default" title="Добавить продукт" onclick="showProductModal(this, 0)">
         <i class="glyphicon glyphicon-plus"></i>
     </button>
 
@@ -92,6 +100,7 @@
                 },
             });
         }
+
     </script>
 
 

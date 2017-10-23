@@ -7,7 +7,7 @@
 @Html.HiddenFor(m => m.Id)
 @foreach (var prop in ViewData.ModelMetadata.Properties.OrderBy(x => x.DisplayName))
 {
-    if (prop.PropertyName != "Id" && prop.PropertyName != "ProductTypeId")
+    if (prop.PropertyName != "Id" && prop.PropertyName != "ProductTypeId" && prop.PropertyName != "ImageLink")
     {
         <div class="form-group">
             <label>@(prop.DisplayName ?? prop.PropertyName)</label>
@@ -24,7 +24,6 @@
             new { @class = "form-control" })
                     break;
                 case "ImageLink":
-
                     break;
                 default:
                     @Html.TextBox(prop.PropertyName, null, new { @class = "form-control" })

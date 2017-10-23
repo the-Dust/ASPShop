@@ -51,6 +51,7 @@ namespace Web.Controllers
             {
                 if (product.Id == 0)
                 {
+                    product.ImageLink = "noimg.jpg";
                     productService.AddProduct(product);
                 }
 
@@ -68,5 +69,29 @@ namespace Web.Controllers
             productService.RemoveProduct(productId);
             return Json(new { IsRemoved = true }, JsonRequestBehavior.AllowGet);
         }
+        //noimg.jpg
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase upload, int productId)
+        {
+            ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
+
+            if (upload != null)
+            {
+                string fileName = System.IO.Path.GetFileName(upload.FileName);
+
+                upload.SaveAs(Server.MapPath("~/Content/Images/" + fileName));
+
+                var product = productService.GetProduct(productId);
+
+                product.ImageLink = fileName;
+
+                productService.UpdateProduct(product);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

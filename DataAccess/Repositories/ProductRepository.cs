@@ -47,6 +47,8 @@ namespace DataAccess.Repositories
             oldProduct.Name = product.Name;
             //oldProduct.ProductType = product.ProductType;
             oldProduct.ProductTypeId = product.ProductTypeId;
+            oldProduct.ShortDescription = product.ShortDescription;
+            oldProduct.ImageLink = product.ImageLink;
 
             context.SaveChanges();
         }

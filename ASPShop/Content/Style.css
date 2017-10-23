@@ -376,7 +376,7 @@ ul {
 
     .content-col .item img {
         padding: 8px;
-        /*width: 200px;*/
+        max-width: 90%;
         height: 188px;
         display: block;
         margin: 0 auto;
@@ -431,7 +431,7 @@ ul {
 }
 
 .item_main_picture {
-    /*width: 297px;*/
+    max-width: 297px;
     height: 297px;
     /*padding-right: 36px;*/
     float: left;
