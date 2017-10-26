@@ -1,5 +1,6 @@
 ﻿@using System.Web.Optimization;
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,11 +50,15 @@
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="header">
-            <a href="index.htm">
-                <img src="~/Content/Images/logo.png" alt="logo" class="logo" />
-            </a>
-        </div>
+        @if (ViewBag.Contacts != null)
+        {
+
+            @Html.Partial("_HeaderContactsPartial")
+        }
+        else
+        {
+            @Html.Partial("_HeaderPartial")
+        }
 
         <div class="content catalog">
             <div class="menu-col">
@@ -70,11 +75,11 @@
                     </li>
                     <li>
                         <div class="menu-contacts">
-                            <a href="contacts.htm"><span>Контакты</span></a>
+                            <a href="@Url.Action("Contacts", "Default")"><span>Контакты</span></a>
                             <ul class="menu menu-throw">
-                                <li><a href="contacts.htm"><span>Адрес магазина</span></a></li>
+                                <li><a href="@Url.Action("Contacts", "Default")"><span>Адрес магазина</span></a></li>
                                 <li><a href="mailto:dust_@("@")inbox.ru"><span>Написать разработчику</span></a></li>
-                                <li><a href="the-Dust_Codewars.htm"><span>Мой код</span></a></li>
+                                <li><a href="/Content/Static/the-Dust_Codewars.htm"><span>Мой код</span></a></li>
                             </ul>
                         </div>
                     </li>
@@ -89,6 +94,10 @@
                     @RenderBody()
                 </div>
             </div>
+            @if (ViewBag.Index != null)
+            {
+                @Html.Partial("Modal/_IndexInstaPartial")
+            }
             <div class="empty-cat"></div>
             <div class="social">
                 <a href="https://www.facebook.com" target="_blank">
@@ -113,7 +122,7 @@
 
     </div>
     <div id="modal-content-2">
-
+        @Html.Partial("_LoginPartial", new Web.Models.Login.LoginUser())
     </div>
 
 

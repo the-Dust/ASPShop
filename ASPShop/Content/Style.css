@@ -102,7 +102,7 @@ body {
             font-family: "Raleway", Tahoma;
         }
 
-    .header a[href="index.htm"] {
+    .header a[href="/Default/Index"] {
         display: block;
         margin-left: 130px;
         margin-top: 20px;
@@ -581,12 +581,14 @@ ul {
     margin: 26px 0px 8px 0px;
 }
 
-.form {
+.form, .form-pass {
     width: 281px;
     margin-right: 18px;
     border: none;
     float: left;
 }
+
+
 
 .news > form {
     margin-right: 0px;
@@ -597,7 +599,7 @@ ul {
     border: none;
 }
 
-.form input[type="text"], .form input[type="email"], .form textarea {
+.form input[type="text"], .form input[type="email"], .form textarea, .form .pass {
     color: #aaaaaa;
     font-size: 12px;
     font-weight: 400;
