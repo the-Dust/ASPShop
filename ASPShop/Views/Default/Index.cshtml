@@ -1,7 +1,24 @@
-﻿
+﻿@using DataAccess.Entities
+@model IEnumerable<Product>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Главная|магазин струн \"EvilStrings\"";
 }
 
-<h2>Index</h2>
+<h1>Свежие поступления</h1>
+
+@foreach(var prod in Model.Take(3))
+{
+    @Html.Partial("../Product/GetConcreteProduct", prod)
+}
+<h1>Топ продаж</h1>
+@foreach (var prod in Model.Skip(3).Take(3))
+{
+    @Html.Partial("../Product/GetConcreteProduct", prod)
+}
+<h1>Лучшая цена</h1>
+@foreach (var prod in Model.Skip(6).Take(3))
+{
+    @Html.Partial("../Product/GetConcreteProduct", prod)
+}
 

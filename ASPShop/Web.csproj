@@ -246,6 +246,10 @@
     <Content Include="Views\Admin\Modal\_ProductPartial.cshtml" />
     <Content Include="Views\Admin\Modal\_Edit.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_HeaderPartial.cshtml" />
+    <Content Include="Views\Shared\_HeaderContactsPartial.cshtml" />
+    <Content Include="Views\Default\Contacts.cshtml" />
+    <Content Include="Views\Default\Modal\_IndexInstaPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

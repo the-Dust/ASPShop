@@ -9,28 +9,26 @@ namespace Web.Controllers
 {
     public class DefaultController : Controller
     {
-        private IUserService userService = null;
-        private IRoleService roleService = null;
-        private IGroupService groupService = null;
+        private IProductService productService = null;
 
-        public DefaultController(IUserService userService, 
-                                IRoleService roleService, IGroupService groupService)
+        public DefaultController(IProductService productService)
         {
-            this.userService = userService;
-            this.roleService = roleService;
-            this.groupService = groupService;
-        }
-
-        public ActionResult Index()
-        {
-            return View();
+            this.productService = productService;
         }
 
         [HttpGet]
-        public ActionResult GetUsers()
+        public ActionResult Index()
         {
-            var result = userService.GetAllUsers();
-            return Json(result.ToArray(), JsonRequestBehavior.AllowGet);
+            var products = productService.GetProducts();
+            ViewBag.Index = true;
+            return View(products);
+        }
+
+        [HttpGet]
+        public ActionResult Contacts()
+        {
+            ViewBag.Contacts = true;
+            return View();
         }
     }
 }
