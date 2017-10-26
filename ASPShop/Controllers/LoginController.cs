@@ -69,7 +69,7 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин или пароль");
+                    ModelState.AddModelError("Enter", "Неправильный логин или пароль");
                     return View();
                 }
             }
@@ -79,20 +79,28 @@ namespace Web.Controllers
             }
         }
 
-
-
-        [HttpPost]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LoginModal(LoginUser user)
         {
             if (!string.IsNullOrWhiteSpace(user.UserName) &&
                 !string.IsNullOrWhiteSpace(user.Password) &&
                 ModelState.IsValid)
             {
-                FormsAuthentication.SetAuthCookie(user.UserName, true);
-
-                return Json(new { IsLoggedIn = true }, JsonRequestBehavior.AllowGet);
+                if (authProvider.Authenticate(user.UserName, user.Password))
+                {
+                    string currentUrl = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+                    return View("_LoginClosePartial");
+                }
+                else
+                {
+                    ModelState.AddModelError("Enter", "Неправильный логин или пароль");
+                    return PartialView("_LoginInsidePartial", user);
+                }
             }
-            return PartialView("../Default/Modal/_LoginPartial", user); 
+            else
+            {
+                return PartialView("_LoginInsidePartial", user);
+            }
         }
 
         public ActionResult Logout()

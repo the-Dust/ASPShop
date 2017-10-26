@@ -250,6 +250,8 @@
     <Content Include="Views\Shared\_HeaderContactsPartial.cshtml" />
     <Content Include="Views\Default\Contacts.cshtml" />
     <Content Include="Views\Default\Modal\_IndexInstaPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginInsidePartial.cshtml" />
+    <Content Include="Views\Shared\_LoginClosePartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,17 @@
+﻿@model Web.Models.Login.LoginUser
+
+<div class="modal-body" id="refreshLogin">
+    <div class="form-group">
+        @Html.ValidationMessage("Enter")
+    </div>
+    <div class="form-group">
+        <label for="UserName">Login</label>
+        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+        @Html.ValidationMessage("UserName", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <label for="Password">Password</label>
+        @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+        @Html.ValidationMessage("Password", new { @class = "text-danger" })
+    </div>
+</div>

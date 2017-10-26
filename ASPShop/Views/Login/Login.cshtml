@@ -2,34 +2,25 @@
 
 @{
     ViewBag.Title = "Login";
-    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    //Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-@using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class="container-fluid"}))
+@using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class= "form" }))
 {
-    <div class="form-group row">
-        @Html.ValidationSummary()
-        <div class="col-md-5 col-md-offset-3">
-            <label for="UserName">User</label>
-            <input id="UserName" name="UserName" type="text" class="form-control" placeholder="User">
-            @Html.ValidationMessage("UserName", new { @class = "text-danger" })
-        </div>
-    </div>
+    <h1>Вход в систему</h1>
+    @Html.ValidationMessage("Enter")
+    <br>
+    <label for="UserName" class="contacts-main">Login</label>
+    @Html.TextBoxFor(x => x.UserName, new { @class = "", placeholder = "User" })
+    @Html.ValidationMessage("UserName", new { @class = "text-danger" })
+    <br>
+    <label for="Password" class="contacts-main">Password</label>
+    @Html.PasswordFor(x => x.Password, new { @class = "pass", placeholder = "Password" })
+    @Html.ValidationMessage("Password", new { @class = "text-danger" })
+    <br>
+    <br>
+    <button type="submit" class="button">Войти</button>
 
-    <div class="form-group row">
-        <div class="col-md-5 col-md-offset-3">
-            <label for="Password">Password</label>
-            <input id="Password" name="Password" type="password" class="form-control" placeholder="Password">
-            @Html.ValidationMessage("Password", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group row">
-        <div class="col-md-5 col-md-offset-3">
-            <button type="submit" class="btn btn-block btn-primary">Submit</button>
-        </div>
-    </div>
-
-    
 }
 
