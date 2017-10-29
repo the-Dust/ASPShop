@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Web.Controllers;
 using System.Web.Mvc;
 using System.Linq;
+using Web.Models;
 
 namespace UnitTests
 {
@@ -14,7 +15,7 @@ namespace UnitTests
     public class AdminTest
     {
         [TestMethod]
-        public void IndexContainsAllGames()
+        public void IndexContainsAllProducts()
         {
             Mock<IProductService> mock = new Mock<IProductService>();
 
@@ -31,9 +32,9 @@ namespace UnitTests
                 new Product { Id=9, ProductTypeId=3, Name="Product9", Cost=1200.00},
             });
 
-            AdminController controller = new AdminController(mock.Object, null);
+            AdminController controller = new AdminController(mock.Object, null) { PageSize=9};
 
-            List<Product> result = ((IEnumerable<Product>)controller.Index().ViewData.Model).ToList();
+            List<Product> result = ((ProductCatalogue)controller.Index().ViewData.Model).Products.ToList();
 
             Assert.AreEqual(9, result.Count);
             Assert.AreEqual("Product1", result[0].Name);
@@ -43,7 +44,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void CanEditGame()
+        public void CanEditProduct()
         {
             Mock<IProductService> mock = new Mock<IProductService>();
             Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
@@ -79,7 +80,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void CannotEditNonexistentGame()
+        public void CannotEditNonexistentProduct()
         {
             Mock<IProductService> mock = new Mock<IProductService>();
             Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
@@ -146,7 +147,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void CanDeleteValidGames()
+        public void CanDeleteValidProducts()
         {
             Mock<IProductService> mock = new Mock<IProductService>();
             Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();

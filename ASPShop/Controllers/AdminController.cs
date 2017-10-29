@@ -14,6 +14,7 @@ namespace Web.Controllers
     {
         private IProductService productService = null;
         private IProductTypeService productTypeService = null;
+        public int PageSize { get; set; } = 4; 
 
         public AdminController(IProductService productService, IProductTypeService productTypeService)
         {
@@ -23,13 +24,11 @@ namespace Web.Controllers
 
         public ViewResult Index(int page=1)
         {
-            int pageSize = 4;
-
             var tempProducts = productService.GetProducts();
 
-            var products = tempProducts.OrderBy(x => x.Id).Skip((page - 1) * pageSize).Take(pageSize);
+            var products = tempProducts.OrderBy(x => x.Id).Skip((page - 1) * PageSize).Take(PageSize);
 
-            PagingInfo pagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = tempProducts.Count() };
+            PagingInfo pagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = tempProducts.Count() };
 
             ProductCatalogue model = new ProductCatalogue { Products = products, PagingInfo = pagingInfo};
 
@@ -84,13 +83,10 @@ namespace Web.Controllers
             productService.RemoveProduct(productId);
             return Json(new { IsRemoved = true }, JsonRequestBehavior.AllowGet);
         }
-        //noimg.jpg
 
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase upload, int productId, int currentPage)
         {
-            ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
-
             if (upload != null)
             {
                 string fileName = System.IO.Path.GetFileName(upload.FileName);

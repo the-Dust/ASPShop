@@ -94,7 +94,7 @@ namespace GameStore.UnitTests
 
             // Утверждение
             Assert.AreEqual(@"<a class=""btn btn-default"" href=""Page1"">1</a>"
-                + @"<a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a>"
+                + @"<a class=""btn btn-default  selected"" href=""Page2"">2</a>"
                 + @"<a class=""btn btn-default"" href=""Page3"">3</a>",
                 result.ToString());
         }
