@@ -21,18 +21,16 @@ namespace Web.Controllers
 
         //[HttpGet]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
-        public ActionResult LoginLink()
+        public ActionResult LoginLink(string partial = "_LoginLink")
         {
-            //var cookie = FormsAuthentication.GetAuthCookie(FormsAuthentication.FormsCookieName, true);
+            bool auth = System.Web.HttpContext.Current.User?.Identity.IsAuthenticated ?? false;
 
-            var cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-
-            if (cookie != null)
+            if (auth)
             {
                 var userName = Thread.CurrentPrincipal.Identity.Name;
-                return PartialView("_LoginLink", new LoginLinkUser { IsLoggedIn = true, Login = userName });
+                return PartialView(partial, new LoginLinkUser { IsLoggedIn = true, Login = userName });
             }
-            return PartialView("_LoginLink", new LoginLinkUser { IsLoggedIn = false });
+            return PartialView(partial, new LoginLinkUser { IsLoggedIn = false });
         }
 
         [HttpGet]

@@ -17,8 +17,7 @@
     <label for="Password" class="contacts-main">Password</label>
     @Html.PasswordFor(x => x.Password, new { @class = "pass", placeholder = "Password" })
     @Html.ValidationMessage("Password", new { @class = "text-danger" })
-    <br>
-    <br>
+    <div class="empty-cat-sm"></div>
     <button type="submit" class="button">Войти</button>
 
 
