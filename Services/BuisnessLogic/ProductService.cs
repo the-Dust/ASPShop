@@ -60,7 +60,7 @@ namespace Services.BuisnessLogic
             productRepository.AddProduct(product);
         }
 
-        public IEnumerable<int> GetHistory(HttpRequestBase request, HttpResponseBase response)
+        public IEnumerable<int> GetHistory(HttpRequestBase request, HttpResponseBase response, int currentId)
         {
             HttpCookie cookie = request.Cookies["history"];
             Queue<int> history;
@@ -74,19 +74,21 @@ namespace Services.BuisnessLogic
                 cookie = new HttpCookie("history");
             }
 
-            if (!history.Contains(int.Parse(request.QueryString["Id"])))
+            if (!history.Contains(int.Parse(request.QueryString["productId"])))
             {
                 if (history.Count >= 4) history.Dequeue();
 
-                history.Enqueue(int.Parse(request.QueryString["Id"]));
+                history.Enqueue(int.Parse(request.QueryString["productId"]));
             }
 
             cookie.Value = String.Join(",", history);
             cookie.Expires = DateTime.Now.AddDays(365);
             response.Cookies.Add(cookie);
 
+            var productIds = GetProducts().Select(p=>p.Id);
+            var outputHistory = history.Where(x => productIds.Contains(x)&&x!= currentId);
             int take = history.Count > 3 ? 3 : history.Count - 1;
-            return history.Take(take);
+            return outputHistory.Take(take);
         }
 
         public IEnumerable<Product> GetRecommend(Product product)
