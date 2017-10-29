@@ -24,14 +24,9 @@
         <p class="item-price">@Model.Cost&#8381;</p>
         <div class="hr"></div>
         <h2>@Model.ProductType.Description</h2>
-        <ul class="item-character">
-            <li>@Model.ShortDescription</li>
-            <li><b>Комплект:</b>&nbsp;6 струн</li>
-            <li><b>Производство:</b>&nbsp;Россия</li>
-            <li><b>Диаметр:</b>&nbsp;11-14-19-40-50-62</li>
-            <li><b>Обмотка:</b>&nbsp;Круглая</li>
-            <li><b>Сплав:</b>&nbsp;Чистая сталь</li>
-        </ul>
+        <div class="item-character">
+            @Html.Raw(Model.ShortDescription.Replace("\r\n", "<br>"))
+        </div>
         <div class="hr"></div>
         @using (Html.BeginForm("AddToCart", "Cart"))
         {
@@ -47,7 +42,7 @@
     <div class="description">
 
         <p>
-            @Model.Description
+            @Html.Raw(Model.Description.Replace("\r\n", "<br>"))
         </p>
     </div>
     
