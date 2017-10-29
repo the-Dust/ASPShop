@@ -22,7 +22,7 @@ namespace Web.Models.HtmlHelpers
                 if (i == pagingInfo.CurrentPage)
                 {
                     tag.AddCssClass("selected");
-                    tag.AddCssClass("btn-primary");
+                    tag.AddCssClass("");
                 }
                 tag.AddCssClass("btn btn-default");
                 result.Append(tag.ToString());

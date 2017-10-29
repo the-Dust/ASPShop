@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Models;
 
 namespace Web.Controllers
 {
@@ -20,11 +21,19 @@ namespace Web.Controllers
             this.productTypeService = productTypeService;
         }
 
-        public ViewResult Index()
+        public ViewResult Index(int page=1)
         {
-            var products = productService.GetProducts();
+            int pageSize = 4;
 
-            return View(products);
+            var tempProducts = productService.GetProducts();
+
+            var products = tempProducts.OrderBy(x => x.Id).Skip((page - 1) * pageSize).Take(pageSize);
+
+            PagingInfo pagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = pageSize, TotalItems = tempProducts.Count() };
+
+            ProductCatalogue model = new ProductCatalogue { Products = products, PagingInfo = pagingInfo};
+
+            return View(model);
         }
 
         

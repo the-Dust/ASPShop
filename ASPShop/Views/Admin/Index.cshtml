@@ -1,9 +1,11 @@
-﻿@model IEnumerable<DataAccess.Entities.Product>
-@using DataAccess.Entities;
+﻿@using Web.Models
+@model ProductCatalogue
 
 @{
     ViewBag.Title = "Index";
 }
+
+<h1>Панель администратора: редактирование товаров</h1>
 
 <div class="container-fluid">
     <div class="row">
@@ -18,7 +20,7 @@
                         <th>Тип</th>
                         <th>Действие</th>
                     </tr>
-                    @foreach (var product in Model)
+                    @foreach (var product in Model.Products)
                     {
                         <tr>
                             <td>@product.Id</td>
@@ -51,9 +53,16 @@
     <button class="btn btn-default" title="Добавить продукт" onclick="showProductModal(this, 0)">
         <i class="glyphicon glyphicon-plus"></i>
     </button>
-
 </div>
+
+<div class="page-links-container">
+    <div class="page-links">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
+    </div>
+</div>
+
 <button class="hidden" id="submitBtn" data-toggle="modal" data-target="#myModal"></button>
+
 <div id="modal-content">
 </div>
 

@@ -252,6 +252,7 @@
     <Content Include="Views\Default\Modal\_IndexInstaPartial.cshtml" />
     <Content Include="Views\Shared\_LoginInsidePartial.cshtml" />
     <Content Include="Views\Shared\_LoginClosePartial.cshtml" />
+    <Content Include="Views\Shared\_AdminLink.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
