@@ -232,7 +232,6 @@
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Modal\_ProductPartial.cshtml" />
-    <Content Include="Views\Default\Modal\_LoginPartial111.cshtml" />
     <Content Include="Views\Shared\_FooterPartial.cshtml" />
     <Content Include="Views\Product\GetCatalogue.cshtml" />
     <Content Include="Views\Product\GetConcreteProduct.cshtml" />

@@ -24,7 +24,7 @@
                     {
                         <tr>
                             <td>@prod.Id</td>
-                            <td>@Html.ActionLink(prod.Name, "GetProductInfo", "Product", prod, null) </td>
+                            <td>@Html.ActionLink(prod.Name, "GetProductInfo", "Product", new { productId = prod.Id}, null) </td>
                             <td>
                                 @using (Html.BeginForm("Upload", "Admin", new { productId = prod.Id, currentPage = Model.PagingInfo.CurrentPage }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {

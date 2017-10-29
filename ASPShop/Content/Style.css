@@ -474,6 +474,8 @@ ul {
         font-weight: 900;
         line-height: 16px;
         margin-top: 18px;
+        text-transform:none;
+        font-style:normal;
     }
 
     .short-descr ul {
@@ -551,6 +553,7 @@ ul {
         font-weight: 400;
         text-transform: uppercase;
         line-height: 29px;
+        font-style:normal;
     }
 
 .description {
