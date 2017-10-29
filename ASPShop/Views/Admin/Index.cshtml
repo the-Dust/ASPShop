@@ -20,27 +20,27 @@
                         <th>Тип</th>
                         <th>Действие</th>
                     </tr>
-                    @foreach (var product in Model.Products)
+                    @foreach (var prod in Model.Products)
                     {
                         <tr>
-                            <td>@product.Id</td>
-                            <td>@product.Name</td>
+                            <td>@prod.Id</td>
+                            <td>@Html.ActionLink(prod.Name, "GetProductInfo", "Product", prod, null) </td>
                             <td>
-                                @using (Html.BeginForm("Upload", "Admin", new { productId = product.Id, currentPage = Model.PagingInfo.CurrentPage }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                @using (Html.BeginForm("Upload", "Admin", new { productId = prod.Id, currentPage = Model.PagingInfo.CurrentPage }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
                                     <label class="fileContainer">
-                                        <img class="preview-img" src=@("/Content/Images/" + product.ImageLink) alt="@product.Name" />
+                                        <img class="preview-img" src=@("/Content/Images/" + prod.ImageLink) alt="@prod.Name" />
                                         <input type="file" name="upload" accept="image/*" class="btn btn-xs btn-warning" onchange="this.form.submit()">
                                     </label>
                                 }
-</td>
-                            <td>@product.Cost</td>
-                            <td>@(product.ProductType.Name + " (" + product.ProductType.Description + ")")</td>
+                            </td>
+                            <td>@prod.Cost</td>
+                            <td>@(prod.ProductType.Name + " (" + prod.ProductType.Description + ")")</td>
                             <td>
-                                <button class="btn btn-xs btn-warning" title="Редактировать продукт" onclick="showProductModal(this, @product.Id)">
+                                <button class="btn btn-xs btn-warning" title="Редактировать продукт" onclick="showProductModal(this, @prod.Id)">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </button> 
-                                <button class="btn btn-xs btn-danger" title="Удалить продукт" onclick="removeProduct(this, @product.Id)">
+                                <button class="btn btn-xs btn-danger" title="Удалить продукт" onclick="removeProduct(this, @prod.Id)">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </button>
                             </td>
