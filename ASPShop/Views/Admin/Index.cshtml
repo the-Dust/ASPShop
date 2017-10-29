@@ -26,7 +26,7 @@
                             <td>@product.Id</td>
                             <td>@product.Name</td>
                             <td>
-                                @using (Html.BeginForm("Upload", "Admin", new { productId = product.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                @using (Html.BeginForm("Upload", "Admin", new { productId = product.Id, currentPage = Model.PagingInfo.CurrentPage }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
                                     <label class="fileContainer">
                                         <img class="preview-img" src=@("/Content/Images/" + product.ImageLink) alt="@product.Name" />

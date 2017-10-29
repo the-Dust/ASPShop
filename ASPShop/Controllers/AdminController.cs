@@ -52,7 +52,8 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateProduct([Bind(Exclude = "Id")] Product product)
+        //public ActionResult UpdateProduct([Bind(Exclude = "Id")] Product product)
+        public ActionResult UpdateProduct(Product product)
         {
             ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
 
@@ -81,7 +82,7 @@ namespace Web.Controllers
         //noimg.jpg
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase upload, int productId)
+        public ActionResult Upload(HttpPostedFileBase upload, int productId, int currentPage)
         {
             ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
 
@@ -98,7 +99,7 @@ namespace Web.Controllers
                 productService.UpdateProduct(product);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new {page = currentPage });
         }
 
 
