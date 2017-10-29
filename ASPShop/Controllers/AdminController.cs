@@ -52,7 +52,6 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        //public ActionResult UpdateProduct([Bind(Exclude = "Id")] Product product)
         public ActionResult UpdateProduct(Product product)
         {
             ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
@@ -71,6 +70,12 @@ namespace Web.Controllers
 
             }
             return PartialView("Modal/_ProductPartial", product);
+        }
+
+        [HttpPost]
+        public ActionResult AddProduct([Bind(Exclude = "Id")] Product product)
+        {
+            return UpdateProduct(product);
         }
 
         [HttpPost]

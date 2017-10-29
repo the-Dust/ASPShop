@@ -2,7 +2,7 @@
 
 
 <!-- Modal -->
-@using (Ajax.BeginForm("UpdateProduct", "Admin", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "refresh" }))
+@using (Ajax.BeginForm((Model != 0 ? "UpdateProduct" : "AddProduct"), "Admin", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "refresh" }))
 {
     <div>
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
