@@ -26,11 +26,13 @@ namespace DataAccess.Entities
 
         [Column(TypeName = "nvarchar")]
         [MaxLength(2000)]
+        [Required(ErrorMessage = "Введите описание")]
         [Display(Name = "4. Описание")]
         public string Description { get; set; }
 
         [Column(TypeName = "nvarchar")]
         [MaxLength(2000)]
+        [Required(ErrorMessage = "Введите краткое описание")]
         [Display(Name = "3. Краткое описание")]
         public string ShortDescription { get; set; }
 
