@@ -75,25 +75,6 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult RemoveProduct(int productId)
-        {
-            productService.RemoveProduct(productId);
-            return Json(new { IsRemoved = true }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult UpdateProduct(Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                productService.UpdateProduct(product);
-
-                return Json(new { IsSaved = true }, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new { IsSaved = false }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
         public ActionResult GetProductPartial(int productId)
         {
             var product = productService.GetProduct(productId);
