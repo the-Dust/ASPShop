@@ -38,7 +38,7 @@ h1, h2, h3 {
     margin-top: 0px;
 }
 
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .mytext {
     font-family: "Roboto", Tahoma;
 }
 
@@ -341,7 +341,7 @@ ul {
         background-color: #faef03;
     }
 
-.content-col h1 {
+.content-col h1, .content-col h2, .content-col h3 {
     color: #707070;
     font-size: 22px;
     font-weight: 900;
@@ -350,7 +350,15 @@ ul {
     text-transform: uppercase;
 }
 
-.content-col .item {
+.content-col h2 {
+    font-size: 18px;
+}
+
+.content-col h3 {
+    font-size: 14px;
+}
+
+.content-col .item, .content-col .item-transparent {
     width: 216px;
     height: 280px;
     background-color: #ffffff;
@@ -359,7 +367,9 @@ ul {
     float: left;
     position: relative;
 }
-
+.content-col .item-transparent {
+    background-color: transparent;
+}
     .content-col .item a {
         display: block;
         width: 100%;
@@ -581,6 +591,10 @@ ul {
     margin: 26px 0px 8px 0px;
 }
 
+.contacts-delivery {
+    margin: 0px 0px 0px 0px;
+}
+
 .form, .form-pass {
     width: 281px;
     margin-right: 18px;
@@ -588,7 +602,9 @@ ul {
     float: left;
 }
 
-
+.form-delivery {
+    width: 400px;
+}
 
 .news > form {
     margin-right: 0px;
@@ -609,6 +625,11 @@ ul {
     padding-left: 15px;
 }
 
+.form-delivery input[type="text"] {
+    width: 385px;
+    margin-bottom:26px;
+}
+
 textarea {
     display: block;
     resize: none;
@@ -621,7 +642,7 @@ textarea {
     text-align: center;
     text-transform: uppercase;
     display: block;
-    width: 105px;
+    min-width: 85px;
     height: 39px;
     background-color: #26d2fc;
     color: #000000;
@@ -630,11 +651,13 @@ textarea {
     line-height: 39px;
     border: none;
     cursor: pointer;
+    padding: 0px 10px 0px 10px;
 }
 
     .button:hover {
         background-color: #333333;
         color: white;
+        text-decoration: none;
     }
 
 .address {
@@ -696,6 +719,10 @@ textarea {
     font-weight: 400;
     line-height: 16px;
     margin-top: 26px;
+}
+
+table {
+    margin-top:20px;
 }
 
 .page-links-container {
@@ -811,6 +838,11 @@ textarea {
 
 .empty-cat {
     height: 70px;
+    width: 100%;
+}
+
+.empty-cat-sm {
+    height: 20px;
     width: 100%;
 }
 
