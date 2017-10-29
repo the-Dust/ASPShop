@@ -17,5 +17,10 @@ namespace Web.Infrastructure
                 FormsAuthentication.SetAuthCookie(username, false);
             return result;
         }
+
+        public void SignOut()
+        {
+            FormsAuthentication.SignOut();
+        }
     }
 }

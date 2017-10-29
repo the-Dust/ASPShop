@@ -19,7 +19,6 @@ namespace Web.Controllers
             this.authProvider = authProvider;
         }
 
-        //[HttpGet]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LoginLink(string partial = "_LoginLink")
         {
@@ -38,21 +37,6 @@ namespace Web.Controllers
         {
             return View();
         }
-
-        /*
-        [HttpPost]
-        public ActionResult Login(LoginUser user)
-        {
-            if (!string.IsNullOrWhiteSpace(user.UserName) && 
-                !string.IsNullOrWhiteSpace(user.Password) &&
-                ModelState.IsValid)
-            {
-                FormsAuthentication.SetAuthCookie(user.UserName, true);
-                return RedirectToAction("Index", "Default");
-            }    
-            return View();
-        }
-        */
 
         [HttpPost]
         public ActionResult Login(LoginUser user, string returnUrl=null)
@@ -86,7 +70,6 @@ namespace Web.Controllers
             {
                 if (authProvider.Authenticate(user.UserName, user.Password))
                 {
-                    string currentUrl = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
                     return View("_LoginClosePartial");
                 }
                 else
@@ -103,7 +86,7 @@ namespace Web.Controllers
 
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
+            authProvider.SignOut();
 
             return RedirectToAction("Index", "Default");
         }
