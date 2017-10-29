@@ -10,6 +10,11 @@
     @Html.Partial("GetConcreteProduct", product)
 }
 
+@if (Model.Products.Count() % 3 == 2)
+{
+    <div class="item-transparent"></div>
+}
+
 <div class="page-links-container">
     <div class="page-links">
         @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetCatalogue", new { page = x, category = Model.CurrentCategory }))
