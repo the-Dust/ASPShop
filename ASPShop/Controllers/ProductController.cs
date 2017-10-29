@@ -63,9 +63,11 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetProductInfo(Product product)
+        public ActionResult GetProductInfo(int productId)
         {
-            ViewBag.History = productService.GetHistory(Request, Response);
+            var product = productService.GetProduct(productId);
+
+            ViewBag.History = productService.GetHistory(Request, Response, productId);
 
             ViewBag.Recommend = productService.GetRecommend(product);
 
