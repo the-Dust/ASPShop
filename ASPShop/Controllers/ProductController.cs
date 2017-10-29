@@ -10,7 +10,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize()]
+
     public class ProductController : Controller
     {
         private IProductService productService = null;
@@ -55,26 +55,20 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetConcreteProduct(int productId)
+        public ActionResult GetConcreteProductById(int productId)
         {
             var product = productService.GetProduct(productId);
 
-            return PartialView(product);
-        }
-
-        [HttpGet]
-        public ActionResult GetRandomProduct()
-        {
-            var count = productService.GetProducts().Count()+1;
-            Random rnd = new Random((int)DateTime.Now.Ticks);
-            int randomId = rnd.Next(1, count);
-            Product product = productService.GetProduct(randomId);
             return PartialView("GetConcreteProduct", product);
         }
 
         [HttpGet]
         public ActionResult GetProductInfo(Product product)
         {
+            ViewBag.History = productService.GetHistory(Request, Response);
+
+            ViewBag.Recommend = productService.GetRecommend(product);
+
             return View(product);
         }
 
