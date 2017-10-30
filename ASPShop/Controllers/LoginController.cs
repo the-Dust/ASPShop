@@ -70,7 +70,7 @@ namespace Web.Controllers
             {
                 if (authProvider.Authenticate(user.UserName, user.Password))
                 {
-                    return View("_LoginClosePartial");
+                    return PartialView("_LoginClosePartial");
                 }
                 else
                 {
