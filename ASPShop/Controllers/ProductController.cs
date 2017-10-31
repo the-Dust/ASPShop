@@ -67,7 +67,7 @@ namespace Web.Controllers
         {
             var product = productService.GetProduct(productId);
 
-            ViewBag.History = productService.GetHistory(Request, Response, productId);
+            ViewBag.History = productService.GetHistory(Request, Response);
 
             ViewBag.Recommend = productService.GetRecommend(product);
 

@@ -60,7 +60,7 @@ namespace Services.BuisnessLogic
             productRepository.AddProduct(product);
         }
 
-        public IEnumerable<int> GetHistory(HttpRequestBase request, HttpResponseBase response, int currentId)
+        public IEnumerable<int> GetHistory(HttpRequestBase request, HttpResponseBase response)
         {
             HttpCookie cookie = request.Cookies["history"];
             Queue<int> history;
@@ -74,21 +74,31 @@ namespace Services.BuisnessLogic
                 cookie = new HttpCookie("history");
             }
 
-            if (!history.Contains(int.Parse(request.QueryString["productId"])))
-            {
-                if (history.Count >= 4) history.Dequeue();
+            int productId = -1;
+            int.TryParse(request.QueryString["productId"], out productId);
 
-                history.Enqueue(int.Parse(request.QueryString["productId"]));
+            var productIds = GetProducts().Select(p => p.Id);
+
+            //deleting inactual items, then deleting repetitive items from the end that's why double reverse() used 
+            var outputHistory = history.Where(x => productIds.Contains(x)).Reverse().Distinct().Reverse().ToArray();
+            int itemsToSkip = outputHistory.Count() > 3 ? outputHistory.Count() - 3 : 0;
+
+            if (productIds.Contains(productId) && !outputHistory.Skip(itemsToSkip).Contains(productId))
+            {
+                //depth of history=10
+                if (history.Count >= 10) history.Dequeue();
+
+                history.Enqueue(productId);
             }
 
             cookie.Value = String.Join(",", history);
             cookie.Expires = DateTime.Now.AddDays(365);
             response.Cookies.Add(cookie);
 
-            var productIds = GetProducts().Select(p=>p.Id);
-            var outputHistory = history.Where(x => productIds.Contains(x)&&x!= currentId);
-            int take = history.Count > 3 ? 3 : history.Count - 1;
-            return outputHistory.Take(take);
+            itemsToSkip = outputHistory.Count() > 3 ? outputHistory.Count() - 3 : 0;
+            int step = outputHistory.LastOrDefault() == productId ? 1 : 0;
+            int take = itemsToSkip - step == -1 ? outputHistory.Count() - 1 : 3;
+            return outputHistory.Skip(itemsToSkip - step).Take(take);
         }
 
         public IEnumerable<Product> GetRecommend(Product product)

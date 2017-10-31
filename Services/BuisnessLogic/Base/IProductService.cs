@@ -17,7 +17,7 @@ namespace Services.BuisnessLogic.Base
 
         IEnumerable<Product> GetProducts(Expression<Func<Product, bool>> func);
 
-        IEnumerable<int> GetHistory(HttpRequestBase request, HttpResponseBase response, int currentId);
+        IEnumerable<int> GetHistory(HttpRequestBase request, HttpResponseBase response);
 
         IEnumerable<Product> GetRecommend(Product product);
 
