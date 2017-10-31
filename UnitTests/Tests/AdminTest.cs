@@ -147,6 +147,24 @@ namespace UnitTests
         }
 
         [TestMethod]
+        public void CanAddNewProduct()
+        {
+            Mock<IProductService> mock = new Mock<IProductService>();
+            Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
+
+            AdminController controller = new AdminController(mock.Object, mockType.Object);
+
+            Product p1 = new Product { Name = "Test" };
+
+            ActionResult result = controller.AddProduct(p1);
+
+
+            mock.Verify(m => m.UpdateProduct(p1));
+
+            Assert.IsInstanceOfType(result, typeof(PartialViewResult));
+        }
+
+        [TestMethod]
         public void CanDeleteValidProducts()
         {
             Mock<IProductService> mock = new Mock<IProductService>();
