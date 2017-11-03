@@ -311,15 +311,15 @@ ul {
 	flex-wrap: wrap;
 	justify-content: space-between;
 	*/
-    min-height: calc(100vh - 705px);
+    min-height: calc(100vh - 798px);
 }
 
 .main-pg {
-    min-height: calc(100vh - 990px);
+    /*min-height: calc(100vh - 990px);*/
 }
 
 .catalog-pg {
-    min-height: calc(100vh - 775px);
+    /*min-height: calc(100vh - 750px);*/
 }
 
 .content-col .wrapper {
@@ -667,6 +667,11 @@ textarea {
         text-decoration: none;
     }
 
+.button-footer {
+    min-width: 70px;
+    padding:0px;
+}
+
 .address {
     width: 368px;
     margin: 90px 0px 0px 26px;
@@ -980,7 +985,7 @@ table {
         line-height: 38px;
         padding-left: 132px;
         float: left;
-        margin-right: 436px;
+        margin: 0px 436px 0px 0px;
     }
 
     .footer-down img {
