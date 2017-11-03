@@ -14,7 +14,7 @@ namespace Web.Controllers
     {
         private IProductService productService = null;
         private IProductTypeService productTypeService = null;
-        public int PageSize { get; set; } = 4; 
+        public int PageSize { get; set; } = 10; 
 
         public AdminController(IProductService productService, IProductTypeService productTypeService)
         {

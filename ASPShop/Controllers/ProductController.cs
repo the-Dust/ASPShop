@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccess.Entities;
 using Web.Models;
+using MvcSiteMapProvider;
 
 namespace Web.Controllers
 {
@@ -16,7 +17,7 @@ namespace Web.Controllers
         private IProductService productService = null;
         private IProductTypeService productTypeService = null;
 
-        public int PageSize { get; set; } = 4;
+        public int PageSize { get; set; } = 9;
 
         public ProductController(IProductService productService, IProductTypeService productTypeService)
         {
@@ -25,17 +26,18 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string category = null, int page = 1)
         {
-            var products = productService.GetProducts();
-
-            return View(products);
+            var view =  GetCatalogue(category, page);
+            view.ViewName = "GetCatalogue";
+            return view;
         }
 
+       
         [HttpGet]
         public ViewResult GetCatalogue(string category=null, int page=1)
         {
-            int productTypeId = productTypeService.GetProductTypeId(ref category);
+            int productTypeId = productTypeService.GetProductTypeId(category);
 
             var tempProducts = productService.GetProducts(productTypeId);
 
