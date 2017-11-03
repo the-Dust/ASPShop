@@ -65,7 +65,7 @@
                     <li><a href="~/Default/Index"><span>Главная</span></a></li>
                     <li>
                         <div class="menu-cat">
-                            <a href="@Url.Action("GetCatalogue", "Product")"><span>Каталог</span></a>
+                            <a href="@Url.Action("Index", "Product")"><span>Каталог</span></a>
                             <ul class="menu menu-throw-cat">
                                 @Html.Action("Menu", "Nav")
                             </ul>
@@ -87,7 +87,7 @@
             <div class="content-col catalog-pg">
                 <div class="wrapper">
                     <div class="breadcrumbs">
-                        <a href="index.htm">Главная</a><span> &raquo; </span><span class="this_page">Каталог</span>
+                        @Html.MvcSiteMap().SiteMapPath()
                     </div>
                     @RenderBody()
                 </div>

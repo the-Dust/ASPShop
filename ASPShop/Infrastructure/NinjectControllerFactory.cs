@@ -18,27 +18,27 @@ namespace Web.Infrastructure
 {
     public class NinjectControllerFactory : DefaultControllerFactory
     {
-        private readonly IKernel kernel;
+        public IKernel Kernel { get; private set; }
 
         public NinjectControllerFactory()
         {
-            kernel = new StandardKernel();
+            Kernel = new StandardKernel();
             AddBindings();
         }
 
         public void AddBindings()
         {
-            kernel.Bind<IUserRepository>().To<UserRepository>();
-            kernel.Bind<IGroupRepository>().To<GroupRepository>();
-            kernel.Bind<IRoleRepository>().To<RoleRepository>();
-            kernel.Bind<IProductRepository>().To<ProductRepository>();
-            kernel.Bind<IProductTypeRepository>().To<ProductTypeRepository>();
+            Kernel.Bind<IUserRepository>().To<UserRepository>();
+            Kernel.Bind<IGroupRepository>().To<GroupRepository>();
+            Kernel.Bind<IRoleRepository>().To<RoleRepository>();
+            Kernel.Bind<IProductRepository>().To<ProductRepository>();
+            Kernel.Bind<IProductTypeRepository>().To<ProductTypeRepository>();
 
-            kernel.Bind<IUserService>().To<UserService>();
-            kernel.Bind<IGroupService>().To<GroupService>();
-            kernel.Bind<IRoleService>().To<RoleService>();
-            kernel.Bind<IProductService>().To<ProductService>();
-            kernel.Bind<IProductTypeService>().To<ProductTypeService>();
+            Kernel.Bind<IUserService>().To<UserService>();
+            Kernel.Bind<IGroupService>().To<GroupService>();
+            Kernel.Bind<IRoleService>().To<RoleService>();
+            Kernel.Bind<IProductService>().To<ProductService>();
+            Kernel.Bind<IProductTypeService>().To<ProductTypeService>();
 
             EmailSettings emailSettings = new EmailSettings
             {
@@ -46,15 +46,15 @@ namespace Web.Infrastructure
                     .AppSettings["Email.WriteAsFile"] ?? "false")
             };
 
-            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+            Kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
                 .WithConstructorArgument("settings", emailSettings);
 
-            kernel.Bind<IAuthProvider>().To<FormAuthProvider>();
+            Kernel.Bind<IAuthProvider>().To<FormAuthProvider>();
         }
 
         protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
         {
-            return controllerType!=null? (IController)kernel.Get(controllerType): null;
+            return controllerType!=null? (IController)Kernel.Get(controllerType): null;
         }
     }
 }
