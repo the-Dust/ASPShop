@@ -15,11 +15,14 @@
     <div class="item-transparent"></div>
 }
 
-<div class="page-links-container">
-    <div class="page-links">
-        @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetCatalogue", new { page = x, category = Model.CurrentCategory }))
+@if (Model.PagingInfo.TotalPages != 1)
+{
+    <div class="page-links-container">
+        <div class="page-links">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action(Model.CurrentCategory == null ? "Index" : "GetCatalogue", new { page = x, category = Model.CurrentCategory }))
+        </div>
     </div>
-</div>
+}
 
 
 

@@ -55,11 +55,14 @@
     </button>
 </div>
 
-<div class="page-links-container">
-    <div class="page-links">
-        @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
+@if (Model.PagingInfo.TotalPages != 1)
+{
+    <div class="page-links-container">
+        <div class="page-links">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
+        </div>
     </div>
-</div>
+}
 
 <button class="hidden" id="submitBtn" data-toggle="modal" data-target="#myModal"></button>
 
