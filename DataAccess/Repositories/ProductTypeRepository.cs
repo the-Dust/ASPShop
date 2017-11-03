@@ -21,15 +21,12 @@ namespace DataAccess.Repositories
             return context.ProductTypes.Where(func).ToArray();
         }
 
-        public int GetProductTypeId(ref string category)
+        public int GetProductTypeId(string category)
         {
-            string temp = category;
-
-            var productType = context.ProductTypes.FirstOrDefault(x => x.Name == temp);
+            var productType = context.ProductTypes.FirstOrDefault(x => x.Name == category);
 
             if (productType == null)
             {
-                category = "Catalogue";
                 return -1;
             }
 

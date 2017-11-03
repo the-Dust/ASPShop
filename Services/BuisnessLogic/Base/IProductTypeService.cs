@@ -14,6 +14,6 @@ namespace Services.BuisnessLogic.Base
 
         IEnumerable<ProductType> GetProductTypes(Expression<Func<ProductType, bool>> func);
 
-        int GetProductTypeId(ref string category);
+        int GetProductTypeId(string category);
     }
 }

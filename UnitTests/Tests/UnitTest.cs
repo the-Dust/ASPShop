@@ -52,7 +52,7 @@ namespace UnitTests
 
             mock.Setup(m => m.GetProducts(It.IsAny<int>())).Returns<int>(i=>i==0?list:list.Where(x =>x.ProductTypeId ==i));
 
-            mockType.Setup(m => m.GetProductTypeId(ref str)).Returns(listType.FirstOrDefault(y => y.Name == str)?.Id??-1);
+            mockType.Setup(m => m.GetProductTypeId(str)).Returns(listType.FirstOrDefault(y => y.Name == str)?.Id??-1);
 
             mockType.Setup(m=>m.GetProductTypes()).Returns(listType);
         }
