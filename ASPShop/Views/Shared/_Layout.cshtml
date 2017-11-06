@@ -6,19 +6,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     
-    @*
-    @Styles.Render("~/styles")
+
+    @Styles.Render("~/Content/AllCss")
     @RenderSection("Styles", false)
-    *@
-    
-    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
-    
-    <link rel="stylesheet" type="text/css" href="~/Content/Style.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/style_img.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/ErrorStyles.css">
+
+
 </head>
 <body>
    
@@ -62,7 +56,7 @@
             <div class="menu-col">
                 <div class="menu-top"><p>Меню</p></div>
                 <ul class="menu">
-                    <li><a href="~/Default/Index"><span>Главная</span></a></li>
+                    <li><a href="@Url.Action("Index", "Default")"><span>Главная</span></a></li>
                     <li>
                         <div class="menu-cat">
                             <a href="@Url.Action("Index", "Product")"><span>Каталог</span></a>
@@ -94,7 +88,7 @@
             </div>
             @if (ViewBag.Index != null)
             {
-                @Html.Partial("Modal/_IndexInstaPartial")
+                @Html.Partial("_IndexInstaPartial")
             }
             <div class="empty-cat"></div>
             <div class="social">
@@ -119,43 +113,14 @@
         @Html.Partial("_FooterPartial")
 
     </div>
-    <div id="modal-content-2">
-        @Html.Partial("_LoginPartial", new Web.Models.Login.LoginUser())
-    </div>
-
-
-    @Scripts.Render("~/scripts")
-    @RenderSection("Scripts", false)
-
     
-        <script type="text/javascript">
+    @Html.Partial("_LoginPartial", new Web.Models.Login.LoginUser())
+    
 
-            
-            
-        
-            $('#loginBtn').click(function () {
 
-                $.ajax({
-                    method: 'GET',
-                    data: null,
-                    url: '@Url.Action("GetLoginPartial", "Login")',
-                    success: function (partialView)
-                    {
-                        $('#modal-content-2').empty().html(partialView);
-                        $('#loginModal').modal('show');
-                    },
-                    error: function (err)
-                    {
-                        console.log(err);
-                    },
-                
-                });
-            
-            });
-        </script>
 
-        
-  
+    @Scripts.Render("~/bundles/scripts")
+    @RenderSection("Scripts", false)
 
 </body>
 </html>

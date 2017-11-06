@@ -10,10 +10,10 @@ namespace Web.App_Start
     {
         public static void RegisterBundles(BundleCollection collection)
         {
-            collection.Add(new ScriptBundle("~/scripts")
+            collection.Add(new ScriptBundle("~/bundles/scripts")
                 .Include("~/Scripts/modernizr-2.6.2.js")
                 .Include("~/Scripts/jquery-3.2.1.js")
-                .Include("~/Scripts/jquery-3.3.1.intellisense.js")
+                .Include("~/Scripts/jquery-3.2.1.intellisense.js")
                 .Include("~/Scripts/bootstrap.js")
                 .Include("~/Scripts/jquery.unobtrusive-ajax.js")
                 .Include("~/Scripts/jquery.validate-vsdoc.js")
@@ -21,9 +21,11 @@ namespace Web.App_Start
                 .Include("~/Scripts/jquery.validate.unobtrusive.js")
                 );
 
-            collection.Add(new StyleBundle("~/styles")
+            collection.Add(new StyleBundle("~/Content/AllCss")
                 .Include("~/Content/bootstrap.css", new CssRewriteUrlTransform())
-                .Include("~/Content/Site.css", new CssRewriteUrlTransform())
+                .Include("~/Content/ErrorStyles.css", new CssRewriteUrlTransform())
+                .Include("~/Content/Style.css", new CssRewriteUrlTransform())
+                .Include("~/Content/StyleImg.css", new CssRewriteUrlTransform())
                 );
         }
     }
