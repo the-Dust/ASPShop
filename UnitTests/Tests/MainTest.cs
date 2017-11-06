@@ -21,7 +21,7 @@ using System.Net;
 namespace UnitTests
 {
     [TestClass]
-    public class UnitTest
+    public class MainTest
     {
         Mock<IProductService> mock = new Mock<IProductService>();
         Mock<IProductTypeService> mockType = new Mock<IProductTypeService>();
@@ -57,7 +57,7 @@ namespace UnitTests
             mockType.Setup(m=>m.GetProductTypes()).Returns(listType);
         }
 
-        public UnitTest()
+        public MainTest()
         {
             MockSetup("");
         }

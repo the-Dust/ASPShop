@@ -75,13 +75,5 @@ namespace Web.Controllers
 
             return View(product);
         }
-
-        [HttpGet]
-        public ActionResult GetProductPartial(int productId)
-        {
-            var product = productService.GetProduct(productId);
-
-            return PartialView("Modal/_ProductPartial", product);
-        }
     }
 }

@@ -22,7 +22,6 @@ namespace Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //BundleTable.EnableOptimizations = true;
 
             Database.SetInitializer(new EfDbInitializer());
 
