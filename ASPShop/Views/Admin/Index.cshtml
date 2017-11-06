@@ -2,7 +2,7 @@
 @model ProductCatalogue
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Панель администратора|магазин струн \"EvilStrings\"";
 }
 
 <h1>Панель администратора: редактирование товаров</h1>
@@ -35,7 +35,7 @@
                                 }
                             </td>
                             <td>@prod.Cost</td>
-                            <td>@(prod.ProductType.Name + " (" + prod.ProductType.Description + ")")</td>
+                            <td>@prod.ProductType.Description</td>
                             <td>
                                 <button class="btn btn-xs btn-warning" title="Редактировать продукт" onclick="showProductModal(this, @prod.Id)">
                                     <i class="glyphicon glyphicon-pencil"></i>

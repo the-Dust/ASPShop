@@ -45,7 +45,7 @@ namespace Web.Controllers
         {
             var product = productService.GetProduct(productId);
 
-            ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
+            ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Description);
 
             return PartialView("Modal/_ProductPartial", product);
         }
@@ -53,7 +53,7 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult UpdateProduct(Product product)
         {
-            ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Name);
+            ViewBag.Types = productTypeService.GetProductTypes().Select(x => x.Description);
 
             if (ModelState.IsValid)
             {
