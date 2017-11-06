@@ -7,7 +7,7 @@
     
   <mvcSiteMapNode title="Главная" controller="Default" action="Index">
 
-    <mvcSiteMapNode title="Каталог" controller="Product" action="Index" preservedRouteParameters="category">
+    <mvcSiteMapNode title="Каталог" controller="Product" action="Index">
       <mvcSiteMapNode title="" controller="Product" action="GetCatalogue" dynamicNodeProvider="Web.Infrastructure.StoreDynamicNodeProvider, Web">
       </mvcSiteMapNode>
     </mvcSiteMapNode>
