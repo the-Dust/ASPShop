@@ -1,0 +1,45 @@
+﻿@model DataAccess.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "Форма заказа|магазин струн \"EvilStrings\"";
+}
+
+<h1>Оформление заказа</h1>
+<div class="empty-cat-sm"></div>
+<h2>Введите ваши контактные данные</h2>
+<div class="empty-cat-sm"></div>
+
+@using (Html.BeginForm("Checkout", "Cart", FormMethod.Post, new { @class = "form form-delivery" }))
+{
+    @Html.ValidationSummary();
+    <h3>Данные</h3>
+ 
+        <label class="contacts-main contacts-delivery">Ваше имя</label>
+        @Html.TextBoxFor(x=>x.Name, new { @class=""})
+   
+
+    <h3>Адрес доставки</h3>
+    foreach (var prop in ViewData.ModelMetadata.Properties)
+    {
+        if (prop.PropertyName != "Name" && prop.PropertyName != "GiftWrap")
+        {
+           
+                <label class="contacts-main contacts-delivery">@(prop.DisplayName ?? prop.PropertyName)</label>
+                @Html.TextBox(prop.PropertyName, null, new { @class = "" })
+   
+        }
+    }
+
+    <h3>Опции</h3>
+    <div class="checkbox">
+        <label class="contacts-delivery">
+            @Html.EditorFor(x => x.GiftWrap)
+            Использовать подарочную упаковку?
+        </label>
+    </div>
+
+    <div class="text-center">
+        <input class="button" type="submit" value="Обработать заказ" />
+    </div>
+}
+

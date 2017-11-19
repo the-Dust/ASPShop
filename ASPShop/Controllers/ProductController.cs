@@ -7,39 +7,45 @@ using System.Web;
 using System.Web.Mvc;
 using DataAccess.Entities;
 using Web.Models;
+using MvcSiteMapProvider;
 
 namespace Web.Controllers
 {
-    [Authorize()]
+
     public class ProductController : Controller
     {
         private IProductService productService = null;
+        private IProductTypeService productTypeService = null;
 
-        public int PageSize { get; set; } = 4;
+        public int PageSize { get; set; } = 9;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IProductTypeService productTypeService)
         {
             this.productService = productService;
+            this.productTypeService = productTypeService;
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string category = null, int page = 1)
         {
-            var products = productService.GetProducts();
-
-            return View(products);
+            var view =  GetCatalogue(category, page);
+            view.ViewName = "GetCatalogue";
+            return view;
         }
 
+       
         [HttpGet]
-        public ActionResult GetCatalogue(int productTypeId=0, int page=1)
+        public ViewResult GetCatalogue(string category=null, int page=1)
         {
+            int productTypeId = productTypeService.GetProductTypeId(category);
+
             var tempProducts = productService.GetProducts(productTypeId);
 
             var products = tempProducts.OrderBy(x => x.Id).Skip((page - 1) * PageSize).Take(PageSize);
 
             PagingInfo pagingInfo = new PagingInfo { CurrentPage = page, ItemsPerPage = PageSize, TotalItems = tempProducts.Count() };
 
-            ProductCatalogue model = new ProductCatalogue { Products=products, PagingInfo=pagingInfo};
+            ProductCatalogue model = new ProductCatalogue { Products=products, PagingInfo=pagingInfo, CurrentCategory = category };
 
             return View(model);
         }
@@ -51,54 +57,23 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetConcreteProduct(int productId)
+        public ActionResult GetConcreteProductById(int productId)
         {
             var product = productService.GetProduct(productId);
 
-            return PartialView(product);
-        }
-
-        [HttpGet]
-        public ActionResult GetRandomProduct()
-        {
-            var count = productService.GetProducts().Count()+1;
-            Random rnd = new Random((int)DateTime.Now.Ticks);
-            int randomId = rnd.Next(1, count);
-            Product product = productService.GetProduct(randomId);
             return PartialView("GetConcreteProduct", product);
         }
 
         [HttpGet]
-        public ActionResult GetProductInfo(Product product)
-        {
-            return View(product);
-        }
-
-        [HttpGet]
-        public JsonResult RemoveProduct(int productId)
-        {
-            productService.RemoveProduct(productId);
-            return Json(new { IsRemoved = true }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public JsonResult UpdateProduct(Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                productService.UpdateProduct(product);
-
-                return Json(new { IsSaved = true }, JsonRequestBehavior.AllowGet);
-            }
-            return Json(new { IsSaved = false }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public ActionResult GetProductPartial(int productId)
+        public ActionResult GetProductInfo(int productId)
         {
             var product = productService.GetProduct(productId);
 
-            return PartialView("Modal/_ProductPartial", product);
+            ViewBag.History = productService.GetHistory(Request, Response);
+
+            ViewBag.Recommend = productService.GetRecommend(product);
+
+            return View(product);
         }
     }
 }

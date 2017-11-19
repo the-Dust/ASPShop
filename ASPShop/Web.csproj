@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>lesson4</RootNamespace>
-    <AssemblyName>lesson4</AssemblyName>
+    <RootNamespace>Web</RootNamespace>
+    <AssemblyName>Web</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -65,6 +65,12 @@
     <Reference Include="Moq, Version=4.1.1309.1617, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="MvcSiteMapProvider, Version=4.6.22.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.Core.4.6.22\lib\net45\MvcSiteMapProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider.WebActivator, Version=4.6.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.4.6.22\lib\net45\MvcSiteMapProvider.WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -97,6 +103,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0.1\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
@@ -136,6 +145,7 @@
     <Content Include="Content\Images\electric_ghs_id1.jpg" />
     <Content Include="Content\Images\electric_kerly_id1.jpg" />
     <Content Include="Content\Images\electric_labella_id1.jpg" />
+    <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\Images\facebook.png" />
     <Content Include="Content\Images\f_icon.png" />
     <Content Include="Content\Images\google-plus.png" />
@@ -166,9 +176,21 @@
     <Content Include="Content\Images\tw_icon.png" />
     <Content Include="Content\Images\visa.png" />
     <Content Include="Content\Images\_logo.png" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Static\the-Dust_Codewars.htm" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\20787804.png" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\88eca62e50c2ff18a69ac3d3c5228820.png" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\ably.js" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\analytics.js" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\application-04023bbb7c11468a593ac3cc6f5be651.css" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\carbon.js" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\css.css" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\modernizr-fb6252ad3a82ba998d580ba913ffd94a.js" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\poweredby_qualified-34d1f986cf9ac647440422ec4e66a959.png" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\raphael-801b1a1fb325110b14452744bdfff296.js" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\tracker.js" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\x27gw54w.txt" />
     <Content Include="Content\Style.css" />
-    <Content Include="Content\style_img.css" />
+    <Content Include="Content\StyleImg.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -176,22 +198,52 @@
     <Content Include="Content\Fonts\Raleway-Regular.ttf" />
     <Content Include="Content\Fonts\Roboto-MediumItalic.ttf" />
     <Content Include="Content\Fonts\Roboto-Regular.ttf" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Mvc.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Content\Static\the-Dust_Codewars_files\C6AILKT.json" />
+    <Content Include="Content\Static\the-Dust_Codewars_files\large.svg" />
+    <None Include="MvcSiteMapSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Scripts\jquery-3.2.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.2.1.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Base\IAuthProvider.cs" />
+    <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
+    <Compile Include="Infrastructure\FormAuthProvider.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
+    <Compile Include="Infrastructure\StoreDynamicNodeProvider.cs" />
+    <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\HtmlHelpers\PagingHelper.cs" />
     <Compile Include="Models\Login\LoginLinkUser.cs" />
     <Compile Include="Models\Login\LoginUser.cs" />
@@ -209,17 +261,36 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Shared\_LoginLink.cshtml" />
-    <Content Include="Views\Shared\_LoginLayout.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
-    <Content Include="Views\Product\Modal\_ProductPartial.cshtml" />
-    <Content Include="Views\Default\Modal\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_FooterPartial.cshtml" />
     <Content Include="Views\Product\GetCatalogue.cshtml" />
     <Content Include="Views\Product\GetConcreteProduct.cshtml" />
     <Content Include="Views\Product\GetProductInfo.cshtml" />
+    <Content Include="Views\Nav\Menu.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\Summary.cshtml" />
+    <Content Include="Views\Cart\Checkout.cshtml" />
+    <Content Include="Views\Cart\Completed.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Modal\_ProductPartial.cshtml" />
+    <Content Include="Views\Admin\Modal\_Edit.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_HeaderPartial.cshtml" />
+    <Content Include="Views\Shared\_HeaderContactsPartial.cshtml" />
+    <Content Include="Views\Default\Contacts.cshtml" />
+    <Content Include="Views\Default\_IndexInstaPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginInsidePartial.cshtml" />
+    <Content Include="Views\Shared\_LoginClosePartial.cshtml" />
+    <Content Include="Views\Shared\_AdminLink.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

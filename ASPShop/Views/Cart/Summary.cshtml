@@ -1,0 +1,9 @@
+﻿@model DataAccess.Entities.Cart
+
+
+<a href=@Url.Action("Index", "Cart",
+    new { returnUrl = Request.Url.PathAndQuery})>
+    <b>Ваша корзина:</b>
+    @Model.Lines.Sum(x => x.Quantity) товаров,
+    @Model.ComputeTotalValue().ToString("#0.##")&#8381;
+</a>

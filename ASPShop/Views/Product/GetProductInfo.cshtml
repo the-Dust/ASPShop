@@ -1,61 +1,85 @@
-﻿@model DataAccess.Entities.Product
+﻿@using System.Linq
+@using DataAccess.Entities;
+@model Product
 
 @{
     ViewBag.Title = Model.Name + "|магазин струн \"EvilStrings\"";
 }
 
 <div class="wrapper">
-    
+
     <a href="#image-1" class="item_main_picture_link">
         <img src="@("/Content/Images/" + Model.ImageLink)" alt="@Model.Name" class="item_main_picture" />
     </a>
-    
-    
+
+
     <div class="lb-overlay" id="image-1">
         <a href="#page" class="lb-close">x Close</a>
-            <img src="@("/Content/Images/" + Model.ImageLink)" alt="@Model.Name" />
+        <img src="@("/Content/Images/" + Model.ImageLink)" alt="@Model.Name" />
     </div>
-    
+
 
     <div class="short-descr">
         <h1 class="item_h1">@Model.Name</h1>
         <p class="item-price">@Model.Cost&#8381;</p>
         <div class="hr"></div>
-        <h2>@Model.ProductType</h2>
-        <ul class="item-character">
-            <li>@Model.ShortDescription</li>
-            <li><b>Комплект:</b>&nbsp;6 струн</li>
-            <li><b>Производство:</b>&nbsp;Россия</li>
-            <li><b>Диаметр:</b>&nbsp;11-14-19-40-50-62</li>
-            <li><b>Обмотка:</b>&nbsp;Круглая</li>
-            <li><b>Сплав:</b>&nbsp;Чистая сталь</li>
-        </ul>
+        <h2>@Model.ProductType.Description</h2>
+        <div class="item-character">
+            @Html.Raw(Model.ShortDescription.Replace("\r\n", "<br>"))
+        </div>
         <div class="hr"></div>
-        <a class="buy_oneclick button-buy" data-product="@Model.Name">Купить</a>
+        @using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            <div class="">
+                @Html.HiddenFor(x => x.Id)
+                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                <input type="submit" class="button-buy" value="В корзину" />
+            </div>
+        }
+
     </div>
     <div class="description_head"><h2>Описание товара</h2></div>
     <div class="description">
-        
+
         <p>
-            @Model.Description
+            @Html.Raw(Model.Description.Replace("\r\n", "<br>"))
         </p>
     </div>
-    <h1>Рекомендуем также</h1>
-   
-    @for (int i = 1; i <= 3; i++)
-    {
-        @Html.Action("GetRandomProduct")
-    }
     
+    @{
+        int countR = ((IEnumerable<Product>)ViewBag.Recommend).Count();
+        if (countR > 0)
+        {
+            <h1>Рекомендуем также</h1>
+            foreach (var p in ViewBag.Recommend)
+            {
+                @Html.Action("GetConcreteProduct", "Product", new { product = p })
+            }
+            if (countR == 2)
+            {
+                <div class="item-transparent"></div>
+            }
+            <div class="empty-cat"></div>
+        }
+    }
 
-    <div class="empty-cat"></div>
-    <h1>История просмотров</h1>
-   
-    @for (int i = 1; i <= 3; i++)
-    {
-        @Html.Action("GetRandomProduct")
+    @{
+        int countH = ((IEnumerable<int>)ViewBag.History).Count();
+        if (countH > 0)
+        {
+            <h1>История просмотров</h1>
+            foreach (int i in ViewBag.History)
+            {
+                @Html.Action("GetConcreteProductById", "Product", new { productId = i })
+            }
+            if (countH == 2)
+            {
+                <div class="item-transparent"></div>
+            }
+            <div class="empty-cat"></div>
+        }
     }
+
     
-    <div class="empty-cat"></div>
 </div>
 

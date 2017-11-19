@@ -13,5 +13,7 @@ namespace DataAccess.Repositories.Base
         IEnumerable<ProductType> GetProductTypes();
 
         IEnumerable<ProductType> GetProductTypes(Expression<Func<ProductType, bool>> func);
+
+        int GetProductTypeId(string category);
     }
 }

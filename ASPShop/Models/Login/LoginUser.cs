@@ -8,10 +8,10 @@ namespace Web.Models.Login
 {
     public class LoginUser
     {
-        [Required(ErrorMessage ="Required field")]
+        [Required(ErrorMessage ="Введите имя")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Required field")]
+        [Required(ErrorMessage = "Введите пароль")]
         public string Password { get; set; }
     }
 }

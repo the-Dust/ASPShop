@@ -1,0 +1,12 @@
+﻿@model Web.Models.Login.LoginLinkUser
+
+@if (Model.IsLoggedIn && Model.Login == "admin")
+{
+    <a href="@Url.Action("Index", "Admin")">
+        Панель администратора
+    </a>
+}
+
+
+
+

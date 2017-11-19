@@ -10,11 +10,19 @@
     @Html.Partial("GetConcreteProduct", product)
 }
 
-<div class="page-links-container">
-    <div class="page-links">
-        @Html.PageLinks(Model.PagingInfo, x => Url.Action("GetCatalogue", new { page = x }))
+@if (Model.Products.Count() % 3 == 2)
+{
+    <div class="item-transparent"></div>
+}
+
+@if (Model.PagingInfo.TotalPages != 1)
+{
+    <div class="page-links-container">
+        <div class="page-links">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action(Model.CurrentCategory == null ? "Index" : "GetCatalogue", new { page = x, category = Model.CurrentCategory }))
+        </div>
     </div>
-</div>
+}
 
 
 

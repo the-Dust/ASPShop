@@ -1,0 +1,120 @@
+﻿@using Web.Models
+@model ProductCatalogue
+
+@{
+    ViewBag.Title = "Панель администратора|магазин струн \"EvilStrings\"";
+}
+
+<h1>Панель администратора: редактирование товаров</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-11">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>Наименование</th>
+                        <th>Фото</th>
+                        <th>Стоимость</th>
+                        <th>Тип</th>
+                        <th>Действие</th>
+                    </tr>
+                    @foreach (var prod in Model.Products)
+                    {
+                        <tr>
+                            <td>@prod.Id</td>
+                            <td>@Html.ActionLink(prod.Name, "GetProductInfo", "Product", new { productId = prod.Id}, null) </td>
+                            <td>
+                                @using (Html.BeginForm("Upload", "Admin", new { productId = prod.Id, currentPage = Model.PagingInfo.CurrentPage }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <label class="fileContainer">
+                                        <img class="preview-img" src=@("/Content/Images/" + prod.ImageLink) alt="@prod.Name" />
+                                        <input type="file" name="upload" accept="image/*" class="btn btn-xs btn-warning" onchange="this.form.submit()">
+                                    </label>
+                                }
+                            </td>
+                            <td>@prod.Cost</td>
+                            <td>@prod.ProductType.Description</td>
+                            <td>
+                                <button class="btn btn-xs btn-warning" title="Редактировать продукт" onclick="showProductModal(this, @prod.Id)">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </button> 
+                                <button class="btn btn-xs btn-danger" title="Удалить продукт" onclick="removeProduct(this, @prod.Id)">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div> 
+    </div>
+    <button class="btn btn-default" title="Добавить продукт" onclick="showProductModal(this, 0)">
+        <i class="glyphicon glyphicon-plus"></i>
+    </button>
+</div>
+
+@if (Model.PagingInfo.TotalPages != 1)
+{
+    <div class="page-links-container">
+        <div class="page-links">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
+        </div>
+    </div>
+}
+
+<button class="hidden" id="submitBtn" data-toggle="modal" data-target="#myModal"></button>
+
+<div id="modal-content">
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        function showProductModal(btn, prodId) {
+            $.ajax({
+                method: 'GET',
+                data: null,
+                url: '@Url.Action("Edit")' + '?productId=' + prodId,
+                success: function (partialView) {
+                    $('#modal-content').empty().html(partialView);
+                    $('#submitBtn').click();
+            },
+            error: function(){
+                console.log(err);
+            },
+            beforeSend: function(){
+                var i = $(btn).find('i');
+                i.addClass('hidden');
+                $('<div class="ajax-loader"></div>').insertAfter(i);
+            },
+            complete: function () {
+                var i = $(btn).find('i');
+                i.removeClass('hidden');
+                $(btn).find('.ajax-loader').remove();
+            }
+            });
+        }
+
+        function removeProduct(btn, prodId) {
+            $.ajax({
+                method: 'POST',
+                data: null,
+                url: '@Url.Action("RemoveProduct")' + '?productId=' + prodId,
+                success: function (response) {
+                    if(response && response.IsRemoved)
+                    {
+                        window.location.href = window.location.href;
+                    }
+                },
+                error: function(){
+                    console.log(err);
+                },
+            });
+        }
+
+    </script>
+
+
+    }
+

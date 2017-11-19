@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Services.BuisnessLogic.Base
 {
@@ -16,6 +17,10 @@ namespace Services.BuisnessLogic.Base
 
         IEnumerable<Product> GetProducts(Expression<Func<Product, bool>> func);
 
+        IEnumerable<int> GetHistory(HttpRequestBase request, HttpResponseBase response);
+
+        IEnumerable<Product> GetRecommend(Product product);
+
         Product GetProduct(int id);
 
         Product GetProduct(Expression<Func<Product, bool>> func);
@@ -23,5 +28,7 @@ namespace Services.BuisnessLogic.Base
         void RemoveProduct(int productId);
 
         void UpdateProduct(Product product);
+
+        void AddProduct(Product product);
     }
 }

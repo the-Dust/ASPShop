@@ -20,5 +20,17 @@ namespace DataAccess.Repositories
         {
             return context.ProductTypes.Where(func).ToArray();
         }
+
+        public int GetProductTypeId(string category)
+        {
+            var productType = context.ProductTypes.FirstOrDefault(x => x.Name == category);
+
+            if (productType == null)
+            {
+                return -1;
+            }
+
+            return productType.Id;
+        }
     }
 }

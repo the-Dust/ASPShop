@@ -54,10 +54,15 @@
   <ItemGroup>
     <Compile Include="Context\EfDbContext.cs" />
     <Compile Include="Entities\Base\BaseIdEntity.cs" />
+    <Compile Include="Entities\Base\IOrderProcessor.cs" />
+    <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\CartLine.cs" />
+    <Compile Include="Entities\EmailOrderProcessor.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\ProductType.cs" />
     <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\AbstractRepository.cs" />

@@ -6,24 +6,30 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Threading;
+using Web.Infrastructure.Base;
 
 namespace Web.Controllers
 {
     public class LoginController : Controller
     {
-        [HttpGet]
-        public ActionResult LoginLink()
+        IAuthProvider authProvider;
+
+        public LoginController(IAuthProvider authProvider)
         {
-            //var cookie = FormsAuthentication.GetAuthCookie(FormsAuthentication.FormsCookieName, true);
+            this.authProvider = authProvider;
+        }
 
-            var cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        public ActionResult LoginLink(string partial = "_LoginLink")
+        {
+            bool auth = System.Web.HttpContext.Current.User?.Identity.IsAuthenticated ?? false;
 
-            if (cookie != null)
+            if (auth)
             {
                 var userName = Thread.CurrentPrincipal.Identity.Name;
-                return PartialView("_LoginLink", new LoginLinkUser { IsLoggedIn = true, Login = userName });
+                return PartialView(partial, new LoginLinkUser { IsLoggedIn = true, Login = userName });
             }
-            return PartialView("_LoginLink", new LoginLinkUser { IsLoggedIn = false });
+            return PartialView(partial, new LoginLinkUser { IsLoggedIn = false });
         }
 
         [HttpGet]
@@ -33,35 +39,54 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginUser user)
+        public ActionResult Login(LoginUser user, string returnUrl=null)
         {
-            if (!string.IsNullOrWhiteSpace(user.UserName) && 
+            if (!string.IsNullOrWhiteSpace(user.UserName) &&
                 !string.IsNullOrWhiteSpace(user.Password) &&
                 ModelState.IsValid)
             {
-                FormsAuthentication.SetAuthCookie(user.UserName, true);
-                return RedirectToAction("Index", "Default");
-            }    
-            return View();
+                if (authProvider.Authenticate(user.UserName, user.Password))
+                {
+                    return Redirect(returnUrl ?? Url.Action("Index", "Admin"));
+                }
+                else
+                {
+                    ModelState.AddModelError("Enter", "Неправильный логин или пароль");
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
         }
 
-        [HttpPost]
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult LoginModal(LoginUser user)
         {
             if (!string.IsNullOrWhiteSpace(user.UserName) &&
                 !string.IsNullOrWhiteSpace(user.Password) &&
                 ModelState.IsValid)
             {
-                FormsAuthentication.SetAuthCookie(user.UserName, true);
-
-                return Json(new { IsLoggedIn = true }, JsonRequestBehavior.AllowGet);
+                if (authProvider.Authenticate(user.UserName, user.Password))
+                {
+                    return PartialView("_LoginClosePartial");
+                }
+                else
+                {
+                    ModelState.AddModelError("Enter", "Неправильный логин или пароль");
+                    return PartialView("_LoginInsidePartial", user);
+                }
             }
-            return PartialView("../Default/Modal/_LoginPartial", user); 
+            else
+            {
+                return PartialView("_LoginInsidePartial", user);
+            }
         }
 
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
+            authProvider.SignOut();
 
             return RedirectToAction("Index", "Default");
         }

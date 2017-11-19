@@ -28,5 +28,10 @@ namespace Services.BuisnessLogic
         {
             return productTypeRepository.GetProductTypes(func);
         }
+
+        public int GetProductTypeId(string category)
+        {
+            return productTypeRepository.GetProductTypeId(category);
+        }
     }
 }

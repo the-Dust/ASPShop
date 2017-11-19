@@ -26,7 +26,7 @@ namespace DataAccess.Context
         public DbSet<ProductType> ProductTypes { get; set; }
     }
 
-    public class EfDbInitializer : DropCreateDatabaseIfModelChanges<EfDbContext> //DropCreateDatabaseAlways<EfDbContext>
+    public class EfDbInitializer : CreateDatabaseIfNotExists<EfDbContext>//DropCreateDatabaseIfModelChanges<EfDbContext> //DropCreateDatabaseAlways<EfDbContext>
     {
         protected override void Seed(EfDbContext context)
         {
